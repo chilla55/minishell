@@ -6,8 +6,14 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/21 10:17:22 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/21 10:30:08 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int main(void)
+{
+	printf("Hello World!\n");
+	return (0);
+}
