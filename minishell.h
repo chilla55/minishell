@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/21 10:46:17 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/21 19:42:49 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 # include <stdlib.h>	
 // malloc, free, exit
 // getenv (get an environment variable)
-# include <unistd.h>	
+# include <unistd.h>
 // write, access, read, close, fork,
 // getcwd, chdir (get complete directory, change directory),
 // unlink (deletes a name from the filesystem),

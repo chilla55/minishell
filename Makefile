@@ -6,13 +6,14 @@
 #    By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/16 12:45:02 by skorte            #+#    #+#              #
-#    Updated: 2022/04/21 11:03:28 by skorte           ###   ########.fr        #
+#    Updated: 2022/04/21 19:10:22 by skorte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = 
+# -Wall -Wextra -Werror
 
 SOURCES = 	minishell.c
 
