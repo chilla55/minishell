@@ -47,6 +47,15 @@ FTS	=	ft_memset		\
 		ft_strtrim		\
 		ft_split		\
 		ft_strmapi		\
+		ft_lstadd_back	\
+		ft_lstadd_front	\
+		ft_lstclear		\
+		ft_lstdelone	\
+		ft_lstiter		\
+		ft_lstlast		\
+		ft_lstmap		\
+		ft_lstnew		\
+		ft_lstsize
 
 NAME = libft.a
 
