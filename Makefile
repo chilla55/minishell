@@ -6,14 +6,13 @@
 #    By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/16 12:45:02 by skorte            #+#    #+#              #
-#    Updated: 2022/04/21 19:10:22 by skorte           ###   ########.fr        #
+#    Updated: 2022/04/23 22:09:25 by skorte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
-CFLAGS = 
-# -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 SOURCES = 	minishell.c
 
@@ -29,6 +28,7 @@ libft:
 
 clean:
 	rm -f $(OBJECTS)
+	rm -f minishell.h.gch
 	make --directory=libft clean
 	
 fclean: clean
