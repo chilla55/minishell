@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 13:59:30 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 19:45:49 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,62 +16,6 @@ void	msh_free(char *input, char *temp, char *prompt,
 			t_envp_list *envp_list, char **envp);
 void	msh_free_envp(char **envp);
 void	msh_free_envp_list(t_envp_list *envp_list);
-
-int	msh_parser(char *input, char **envp)
-{
-	char	**words;
-	int		i;
-	int		word_start;
-	int		word_len;
-	int		word_count;
-	int		single_ticks;
-	int		double_ticks;
-
-	printf("parser started\n");
-	words = malloc(sizeof(char *) * ft_strlen(input));
-	i = 0;
-	word_start = 0;
-	word_len = 0;
-	word_count = 0;
-	single_ticks = 0;
-	double_ticks = 0;
-	while (i < (int)ft_strlen(input) && ft_strchr(" ", input[i]))
-	{
-		word_start++;
-		i++;
-	}
-	while (i < (int)ft_strlen(input) + 1)
-	{
-		if (input[i] && !ft_strchr(" <>|", input[i]))
-		{
-			word_len++;
-			if (input[i] == '\'')
-				single_ticks = (single_ticks + 1) % 2;
-			if (input[i] == '\"')
-				double_ticks = (double_ticks + 1) % 2;
-		}			
-		else if ((input[i] == ' ' && !single_ticks && !double_ticks)
-				|| input[i] == '\0')
-		{
-			if (word_len)
-			{
-				words[word_count] = ft_substr(input, word_start, word_len);
-				printf("%i-%p-%s|\n", word_count, words[word_count], words[word_count]);
-				word_count++;
-			}
-			word_len = 0;
-			word_start = i + 1;
-		}
-		else
-		{
-			word_len++;
-		}
-		i++;
-	}
-	words[word_count] = NULL;
-	mini_execve(words[0], words, envp);
-	return (0);
-}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -83,7 +27,7 @@ int main(int argc, char **argv, char **envp)
 
 	if (argc != 1) // Dummy for gcc -Werror
 		return (-1);
-	if (argv[1])
+	if (argv[1]) // Dummy for gcc -Werror
 		return (-1);
 //	printf("%s\n", getenv("XYZ"));
 //	setenv("XYZ", "XYZ", 1);
@@ -92,8 +36,10 @@ int main(int argc, char **argv, char **envp)
 //	envp[0] = ft_strdup("XYZZ=xyzz");
 //	printf("%s\n", getenv("XYZZ"));
 	envp_list = msh_create_envp_list(envp);
-//	msh_print_envp_list(envp_list);
-//	printf("%s\n", msh_get_envp_value(envp_list, "PATH"));
+	msh_set_envp(envp_list, "SHEL", "biba", 0);
+	msh_set_envp(envp_list, "SHELL", "biba", 1);
+	msh_print_envp_list(envp_list);
+	printf("%s\n", msh_get_envp_value(envp_list, "SHELL"));
 	printf("%s\n", envp[0]);
 	envp = msh_create_envp_from_list(envp_list);
 	printf("%s\n", envp[0]);
@@ -102,19 +48,13 @@ int main(int argc, char **argv, char **envp)
 	exit = 0;
 	while (!exit)
 	{
-		input = readline(prompt);
-/* If there is anything on the line, print it and remember it. */
-		if (*input)
+		temp = readline(prompt);
+		if (*temp)
 		{
-			add_history (input);
-			temp = ft_strdup(input);
-			free (input);
+			add_history (temp);
 			input = ft_strdelendchr(temp, ' ');
 			free (temp);
-			msh_parser(input, envp);
-//			printf ("%s\n", input);
 		}
-/* Check for `command' "exit" */
 		if (ft_strncmp(input, "exit", 5) == 0)
 		{
 			exit = 1;
@@ -136,6 +76,7 @@ int main(int argc, char **argv, char **envp)
 		}*/
 		else
 		{
+			msh_parser(input, envp);
 //			mini_execve(input, argv, envp);
 			free(input);
 		}
@@ -151,8 +92,8 @@ void	msh_free(char *input, char *temp, char *prompt,
 	if (input)
 		free(input);
 	if (temp)
-		NULL;//		free(temp);
-	if(prompt)
+		NULL;//	free(temp);
+	if (prompt)
 		NULL;//		free(prompt);
 	if (envp_list)
 		msh_free_envp_list(envp_list);

@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 10:35:43 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 18:22:20 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,19 @@ typedef struct s_envp_list
 	struct s_envp_list	*next;
 }					t_envp_list;
 
+// msh_parser.c
+int	msh_parser(char *input, char **envp);
+
 // msh_envp.c
 t_envp_list	*msh_create_envp_list(char **envp);
-t_envp_list	*ft_envp_lstnew(char *content);
+t_envp_list	*msh_envp_lstnew(char *content);
+t_envp_list	*msh_envp_lstnew_2(char *name, char *value);
 int			msh_print_envp_list(t_envp_list *envp_list);
 char		*msh_get_envp_value(t_envp_list *envp_list, char *name);
 int			msh_envp_lstsize(t_envp_list *lst);
 char		**msh_create_envp_from_list(t_envp_list *envp_list);
+int			msh_set_envp(t_envp_list *envp_list,
+				char *name, char *value, int overwrite);
 
 // msh_execve.c
 void		mini_execve(char *command, char **argv, char **envp);
