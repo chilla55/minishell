@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 06:30:32 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 09:21:45 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,13 @@ typedef struct s_envp_list
 
 // msh_envp.c
 t_envp_list	*msh_create_envp_list(char **envp);
+t_envp_list	*ft_envp_lstnew(char *content);
 int			msh_print_envp_list(t_envp_list *envp_list);
 char		*msh_get_envp_value(t_envp_list *envp_list, char *name);
 int			msh_envp_lstsize(t_envp_list *lst);
 char		**msh_create_envp_from_list(t_envp_list *envp_list);
 
+// msh_execve.c
+void		mini_execve(char *command, char **argv, char **envp);
 
 #endif

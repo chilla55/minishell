@@ -26,6 +26,7 @@ FTS	=	ft_memset		\
 		ft_strmapi		\
 		ft_strncmp		\
 		ft_strrchr		\
+		ft_strdelendchr	\
 		ft_isalpha 		\
 		ft_isalnum		\
 		ft_isascii		\

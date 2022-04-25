@@ -6,15 +6,18 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 06:15:47 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 10:17:57 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void		mini_execve(char *const input, char **argv, char **envp);
+void	msh_free(char *input, char *temp, char *prompt,
+			t_envp_list *envp_list, char **envp);
+void	msh_free_envp(char **envp);
+void	msh_free_envp_list(t_envp_list *envp_list);
 
-int		msh_parser(char *input)
+int	msh_parser(char *input)
 {
 	char	**split_input;
 	int		i;
@@ -50,12 +53,11 @@ int		msh_parser(char *input)
 
 int main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	char	*temp;
-	char	*prompt;
-	int		exit;
+	char		*input;
+	char		*temp;
+	char		*prompt;
+	int			exit;
 	t_envp_list	*envp_list;
-	
 
 	if (argc != 1) // Dummy for gcc -Werror
 		return (-1);
@@ -75,23 +77,27 @@ int main(int argc, char **argv, char **envp)
 	prompt = "Try me!$ ";
 	exit = 0;
 	while (!exit)
-    {
-    	input = readline(prompt);
-		msh_parser(input);
-    	/* If there is anything on the line, print it and remember it. */
-    	if (*input)
+	{
+		input = readline(prompt);
+//		msh_parser(input);
+/* If there is anything on the line, print it and remember it. */
+		if (*input)
 		{
-			printf ("%s\n", input);
 			add_history (input);
+			temp = ft_strdup(input);
+			free (input);
+			input = ft_strdelendchr(temp, ' ');
+			free (temp);
+			printf ("%s\n", input);
 		}
-    	/* Check for `command' "exit" */
-    	if (ft_strncmp(input, "exit", 5) == 0)
+/* Check for `command' "exit" */
+		if (ft_strncmp(input, "exit", 5) == 0)
 		{
 			exit = 1;
-			break;
+			break ;
 		}
-    	/* Check for `command' "list" to print history */
-	    else if (ft_strncmp(input, "list", 5) == 0)
+/* Check for `command' "list" to print history */
+/*	    else if (ft_strncmp(input, "list", 5) == 0)
 		{
 			HIST_ENTRY **list;
 			register int i;
@@ -103,54 +109,56 @@ int main(int argc, char **argv, char **envp)
 					printf ("%d: %s\n", i, list[i]->line);
 					i++;
 				}
-			break;
-		}
+		}*/
 		else
 		{
-			temp = ft_strjoin("/", input);
-			mini_execve(temp, argv, envp);
-			free(temp);
-//			printf("PATH = %s\n", getenv("PATH"));
-	    	free (input);
+			mini_execve(input, argv, envp);
+			free(input);
 		}
 	}
 	clear_history();
+	msh_free(input, temp, prompt, envp_list, envp);
 	return (0);
 }
 
-static void		mini_execve(char *command, char **argv, char **envp)
+void	msh_free(char *input, char *temp, char *prompt,
+			t_envp_list *envp_list, char **envp)
 {
-	char	**paths;
-	char	*path;
-	pid_t	child_pid;
-	int 	i;
+	if (input)
+		free(input);
+//	if (temp)
+//		free(temp);
+//	if(prompt)
+//		free(prompt);
+	if (envp_list)
+		msh_free_envp_list(envp_list);
+	if (envp)
+		msh_free_envp(envp);
+}
 
-	path = NULL;
-	child_pid = fork();
-	if (child_pid == -1)
+void	msh_free_envp(char **envp)
+{
+	char		**env;
+
+	env = envp;
+	while (*env != NULL)
 	{
-		write(2, "Error: fork failed\n", 19);
+		free(*env);
+		env++;
 	}
-	if (child_pid == 0)
+	free (envp);
+}
+
+void	msh_free_envp_list(t_envp_list *envp_list)
+{
+	if (envp_list)
 	{
-		printf("Child gets executed\n");
-		paths = ft_split(getenv("PATH"),':'); // needs to be freed!!
-		i = 0;
-		while (paths[i])
-		{
-			path = ft_strjoin(paths[i], command); // needs to be freed!!
-			printf("%s\n", path);
-			if (execve(path, argv, envp) != -1)
-				break;
-			i++;
-		}
-		if (!paths[i])
-			printf("Command not found\n");
-		i = 0;
-	}
-	else
-	{
-		wait(0);
-		printf("Parent has waited for child process to end\n");
+		if (envp_list->name)
+			free (envp_list->name);
+		if (envp_list->value)
+			free (envp_list->value);
+		if (envp_list->next)
+			msh_free_envp_list(envp_list->next);
+		free (envp_list);
 	}
 }
