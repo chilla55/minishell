@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 07:01:26 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 10:36:14 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@
 ** exit with no options
 */
 
-int	main(void)
+char	*msh_pwd(void)
 {
 	char	*buffer;
+	char	*rtn;
 	int		bufferlength;
 
-	bufferlength = 128; // put that one into the header???
+	bufferlength = 1024;
 	buffer = malloc(bufferlength * sizeof(char));
 	getcwd(buffer, bufferlength);
-	printf("%s\n", buffer);
+	rtn = ft_strdup(buffer);
 	free(buffer);
-	return (0);
+	return (rtn);
 }

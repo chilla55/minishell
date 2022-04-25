@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 09:21:45 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 10:35:43 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,8 @@ char		**msh_create_envp_from_list(t_envp_list *envp_list);
 
 // msh_execve.c
 void		mini_execve(char *command, char **argv, char **envp);
+
+// msh_pwd.c
+char		*msh_pwd(void);
 
 #endif

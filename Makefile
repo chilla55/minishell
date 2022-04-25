@@ -6,7 +6,7 @@
 #    By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/16 12:45:02 by skorte            #+#    #+#              #
-#    Updated: 2022/04/25 09:18:59 by skorte           ###   ########.fr        #
+#    Updated: 2022/04/25 10:31:06 by skorte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 SOURCES = 	minishell.c \
 			msh_envp.c \
 			msh_execve.c \
+			msh_pwd.c 
 
 OBJECTS = $(SOURCES:.c=.o)
 
