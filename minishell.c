@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 10:21:02 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 13:59:30 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,59 @@ void	msh_free(char *input, char *temp, char *prompt,
 void	msh_free_envp(char **envp);
 void	msh_free_envp_list(t_envp_list *envp_list);
 
-int	msh_parser(char *input)
+int	msh_parser(char *input, char **envp)
 {
-	char	**split_input;
+	char	**words;
 	int		i;
 	int		word_start;
 	int		word_len;
 	int		word_count;
+	int		single_ticks;
+	int		double_ticks;
 
-	split_input = malloc(sizeof(char *) * ft_strlen(input));
+	printf("parser started\n");
+	words = malloc(sizeof(char *) * ft_strlen(input));
 	i = 0;
 	word_start = 0;
 	word_len = 0;
 	word_count = 0;
-	while (i < (int)ft_strlen(input))
+	single_ticks = 0;
+	double_ticks = 0;
+	while (i < (int)ft_strlen(input) && ft_strchr(" ", input[i]))
 	{
-		if (!ft_strchr(" <>|'$'", input[i]))
-		{
-			word_len++;
-		}
-		else if (ft_strchr("|'$'", input[i]))
-		{
-			split_input[word_count] = ft_substr(input, word_start, word_len);
-			write(1, split_input[word_count], word_len);
-			word_len = 1;
-			word_start = i;
-			word_count++;
-		}
-		else
-			word_len++;
+		word_start++;
 		i++;
 	}
+	while (i < (int)ft_strlen(input) + 1)
+	{
+		if (input[i] && !ft_strchr(" <>|", input[i]))
+		{
+			word_len++;
+			if (input[i] == '\'')
+				single_ticks = (single_ticks + 1) % 2;
+			if (input[i] == '\"')
+				double_ticks = (double_ticks + 1) % 2;
+		}			
+		else if ((input[i] == ' ' && !single_ticks && !double_ticks)
+				|| input[i] == '\0')
+		{
+			if (word_len)
+			{
+				words[word_count] = ft_substr(input, word_start, word_len);
+				printf("%i-%p-%s|\n", word_count, words[word_count], words[word_count]);
+				word_count++;
+			}
+			word_len = 0;
+			word_start = i + 1;
+		}
+		else
+		{
+			word_len++;
+		}
+		i++;
+	}
+	words[word_count] = NULL;
+	mini_execve(words[0], words, envp);
 	return (0);
 }
 
@@ -60,6 +82,8 @@ int main(int argc, char **argv, char **envp)
 	t_envp_list	*envp_list;
 
 	if (argc != 1) // Dummy for gcc -Werror
+		return (-1);
+	if (argv[1])
 		return (-1);
 //	printf("%s\n", getenv("XYZ"));
 //	setenv("XYZ", "XYZ", 1);
@@ -79,7 +103,6 @@ int main(int argc, char **argv, char **envp)
 	while (!exit)
 	{
 		input = readline(prompt);
-//		msh_parser(input);
 /* If there is anything on the line, print it and remember it. */
 		if (*input)
 		{
@@ -88,7 +111,8 @@ int main(int argc, char **argv, char **envp)
 			free (input);
 			input = ft_strdelendchr(temp, ' ');
 			free (temp);
-			printf ("%s\n", input);
+			msh_parser(input, envp);
+//			printf ("%s\n", input);
 		}
 /* Check for `command' "exit" */
 		if (ft_strncmp(input, "exit", 5) == 0)
@@ -112,7 +136,7 @@ int main(int argc, char **argv, char **envp)
 		}*/
 		else
 		{
-			mini_execve(input, argv, envp);
+//			mini_execve(input, argv, envp);
 			free(input);
 		}
 	}
