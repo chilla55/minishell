@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 10:17:57 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 10:21:02 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,10 @@ void	msh_free(char *input, char *temp, char *prompt,
 {
 	if (input)
 		free(input);
-//	if (temp)
-//		free(temp);
-//	if(prompt)
-//		free(prompt);
+	if (temp)
+		NULL;//		free(temp);
+	if(prompt)
+		NULL;//		free(prompt);
 	if (envp_list)
 		msh_free_envp_list(envp_list);
 	if (envp)
