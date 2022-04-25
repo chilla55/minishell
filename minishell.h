@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/21 19:42:49 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 06:30:32 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,20 @@
 // (https://man7.org/linux/man-pages/man3/tgetent.3x.html ???)
 
 # include "libft/libft.h"
+
+typedef struct s_envp_list
+{
+	char				*name;
+	char				*value;
+	struct s_envp_list	*next;
+}					t_envp_list;
+
+// msh_envp.c
+t_envp_list	*msh_create_envp_list(char **envp);
+int			msh_print_envp_list(t_envp_list *envp_list);
+char		*msh_get_envp_value(t_envp_list *envp_list, char *name);
+int			msh_envp_lstsize(t_envp_list *lst);
+char		**msh_create_envp_from_list(t_envp_list *envp_list);
+
 
 #endif

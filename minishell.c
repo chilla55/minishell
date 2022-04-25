@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/22 08:04:15 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 06:15:47 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,70 @@
 
 static void		mini_execve(char *const input, char **argv, char **envp);
 
+int		msh_parser(char *input)
+{
+	char	**split_input;
+	int		i;
+	int		word_start;
+	int		word_len;
+	int		word_count;
+
+	split_input = malloc(sizeof(char *) * ft_strlen(input));
+	i = 0;
+	word_start = 0;
+	word_len = 0;
+	word_count = 0;
+	while (i < (int)ft_strlen(input))
+	{
+		if (!ft_strchr(" <>|'$'", input[i]))
+		{
+			word_len++;
+		}
+		else if (ft_strchr("|'$'", input[i]))
+		{
+			split_input[word_count] = ft_substr(input, word_start, word_len);
+			write(1, split_input[word_count], word_len);
+			word_len = 1;
+			word_start = i;
+			word_count++;
+		}
+		else
+			word_len++;
+		i++;
+	}
+	return (0);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	char	*temp;
 	char	*prompt;
 	int		exit;
+	t_envp_list	*envp_list;
+	
 
+	if (argc != 1) // Dummy for gcc -Werror
+		return (-1);
+//	printf("%s\n", getenv("XYZ"));
+//	setenv("XYZ", "XYZ", 1);
+//	printf("%s\n", getenv("XYZ"));
+//	printf("%s\n", envp[0]);
+//	envp[0] = ft_strdup("XYZZ=xyzz");
+//	printf("%s\n", getenv("XYZZ"));
+	envp_list = msh_create_envp_list(envp);
+//	msh_print_envp_list(envp_list);
+//	printf("%s\n", msh_get_envp_value(envp_list, "PATH"));
+	printf("%s\n", envp[0]);
+	envp = msh_create_envp_from_list(envp_list);
+	printf("%s\n", envp[0]);
 	printf("Hello World! One day, I will be a true MiniShell...\n");
 	prompt = "Try me!$ ";
 	exit = 0;
 	while (!exit)
     {
     	input = readline(prompt);
+		msh_parser(input);
     	/* If there is anything on the line, print it and remember it. */
     	if (*input)
 		{

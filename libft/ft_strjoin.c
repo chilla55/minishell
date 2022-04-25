@@ -17,8 +17,19 @@
 /*
 ** Allocates (with malloc(3)) and returns a new
 ** string, which is the result of the concatenation
-** of ’s1’ and ’s2’.
+** of ’s1’ and ’s2’ (and 's3').
 */
+
+char	*ft_strjoin_3(char const *s1, char const *s2, char const *s3)
+{
+	char	*temp;
+	char	*ret;
+
+	temp = ft_strjoin(s1, s2);
+	ret = ft_strjoin(temp, s3);
+	free(temp);
+	return (ret);
+}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
