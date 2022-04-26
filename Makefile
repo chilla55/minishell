@@ -6,7 +6,7 @@
 #    By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/01 03:58:29 by agrotzsc          #+#    #+#              #
-#    Updated: 2022/04/26 09:03:51 by agrotzsc         ###   ########.fr        #
+#    Updated: 2022/04/26 15:47:19 by agrotzsc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,41 +30,15 @@ RM				=	rm -rf
 #---- Directorys --------------------------------------------------------------#
 
 SRC_DIR			=	src/
-UTILS_DIR		=	utils/
-BUILTINS_DIR	=	builtins/
-ENV_DIR			=	env/
-PIPES_DIR		=	pipes/
 OBJ_DIR			=	obj/
 
 #---- Files -------------------------------------------------------------------#
 
-SRC_FILES		=	minishell.c
-
-UTILS_FILES		= 	msh_execve.c \
-					msh_parser.c
-
-BUILTINS_FILES	= 	msh_echo.c \
-					msh_pwd.c
-
-ENV_FILES		= 	msh_envp.c
-
-PIPES_FILES		= 	
+SOURCES = $(shell find $(SRC_DIR) -name '*.c')
 
 #---- Prefix ------------------------------------------------------------------#
 
-UTILS			=	$(addprefix $(UTILS_DIR),$(UTILS_FILES))
-BUILTINS		=	$(addprefix $(BUILTINS_DIR),$(BUILTINS_FILES))
-ENV				=	$(addprefix $(ENV_DIR),$(ENV_FILES))
-PIPES			=	$(addprefix $(PIPES_DIR),$(PIPES_FILES))
-
-COMP_FILES		=	$(SRC_FILES) \
-					$(UTILS) \
-					$(BUILTINS)\
-					$(ENV)\
-					$(PIPES)
-
-OBJ_FILES		=	${COMP_FILES:.c=.o}
-OBJS			=	$(addprefix $(OBJ_DIR),$(OBJ_FILES))
+OBJS = $(SOURCES:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #---- Libaries ----------------------------------------------------------------#
 
@@ -82,30 +56,7 @@ $(NAME): $(OBJS)
 	@printf "%b" "\r$(GREEN)$(NAME) compiled.$(DEF_COLOR)\n"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)$(UTILS_DIR)
-	@mkdir -p $(OBJ_DIR)$(BUILTINS_DIR)
-	@mkdir -p $(OBJ_DIR)$(ENV_DIR)
-	@mkdir -p $(OBJ_DIR)$(PIPES_DIR)
-	@printf "%b" "\r\033[2K"
-	@printf "%b" "\r$(YELLOW)Compiling: $<$(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJ_DIR)$(UTILS_DIR)%.o: $(SRC_DIR)$(UTILS_DIR)%.c
-	@printf "%b" "\r\033[2K"
-	@printf "%b" "\r$(YELLOW)Compiling: $<$(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJ_DIR)$(BUILTINS_DIR)%.o: $(SRC_DIR)$(BUILTINS_DIR)%.c
-	@printf "%b" "\r\033[2K"
-	@printf "%b" "\r$(YELLOW)Compiling: $<$(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJ_DIR)$(ENV_DIR)%.o: $(SRC_DIR)$(ENV_DIR)%.c
-	@printf "%b" "\r\033[2K"
-	@printf "%b" "\r$(YELLOW)Compiling: $<$(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJ_DIR)$(PIPES_DIR)%.o: $(SRC_DIR)$(PIPES_DIR)%.c
+	@mkdir -p $(@D)
 	@printf "%b" "\r\033[2K"
 	@printf "%b" "\r$(YELLOW)Compiling: $<$(DEF_COLOR)"
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
