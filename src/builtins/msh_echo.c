@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   msh_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/23 23:00:29 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/26 09:09:06 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** Your shell must implement the following builtins:
@@ -25,28 +25,27 @@
 
 // *** echo ***
 
-int	main(int argc, char **argv)
+void	msh_echo(char **strs)
 {
 	int	no_new_line;
 	int	i;
 
-	if (argc == 1)
+	if (!strs[1])
 	{
 		write(1, "\n", 1);
-		return (0);
+		return ;
 	}
 	no_new_line = 0;
-	if (ft_strncmp(argv[1], "-n", 3) == 0)
+	if (ft_strncmp(strs[1], "-n", 3) == 0)
 		no_new_line = 1;
 	i = no_new_line + 1;
-	while (i < argc)
+	while (strs[i])
 	{
-		write(1, argv[i], ft_strlen(argv[i]));
-		i++;
-		if (i < argc)
+		write(1, strs[i], ft_strlen(strs[i]));
+		if (strs[i + 1])
 			write(1, " ", 1);
+		i++;
 	}
 	if (no_new_line == 0)
 		write(1, "\n", 1);
-	return (0);
 }

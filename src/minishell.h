@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 20:01:20 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/26 08:44:35 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 // (https://man7.org/linux/man-pages/man3/tgetent.3x.html ???)
 
-# include "libft/libft.h"
+# include "../includes/libft/src/libft.h"
 
 typedef struct s_envp_list
 {
@@ -93,10 +93,10 @@ typedef struct s_envp_list
 	struct s_envp_list	*next;
 }					t_envp_list;
 
-// msh_parser.c
-int	msh_parser(char *input, t_envp_list *envp_list);
+// utils/msh_parser.c
+int			msh_parser(char *input, t_envp_list *envp_list);
 
-// msh_envp.c
+// env/msh_envp.c
 t_envp_list	*msh_create_envp_list(char **envp);
 t_envp_list	*msh_envp_lstnew(char *content);
 t_envp_list	*msh_envp_lstnew_2(char *name, char *value);
@@ -106,11 +106,12 @@ int			msh_envp_lstsize(t_envp_list *lst);
 char		**msh_create_envp_from_list(t_envp_list *envp_list);
 int			msh_set_envp(t_envp_list *envp_list,
 				char *name, char *value, int overwrite);
-
-// msh_execve.c
+// utils/msh_execve.c
 void		mini_execve(char *command, char **argv, char **envp);
 
-// msh_pwd.c
+// builtins/msh_pwd.c
 char		*msh_pwd(void);
 
+// builtins/msh_echo.c
+void		msh_echo(char **argv);
 #endif

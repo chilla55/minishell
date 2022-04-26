@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   msh_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:21:45 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/26 09:35:57 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/26 08:43:38 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	msh_try_build_in(char *word, char **words, t_envp_list *envp_list)
 {
 	printf("Searching for %s in built-ins\n", words[0]);
 	if (!ft_strncmp(word, "echo", 5))
-		return (1) ;
+	{
+		msh_echo(words);
+		return (1);
+	}
 	else if (!ft_strncmp(word, "export", 7))
-		return (1) ;
+		return (1);
 	else if (!ft_strncmp(word, "cd", 3))
-		return (1) ;
-	else if (!ft_strncmp(word, "echo", 5))
-		return (1) ;
+		return (1);
 	printf("%s not built-in\n", words[0]);
 	msh_envp_lstsize(envp_list);
 	return (0);

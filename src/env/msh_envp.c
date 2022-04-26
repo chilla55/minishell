@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   msh_envp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 06:15:28 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 19:45:40 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/26 08:42:03 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_envp_list	*msh_create_envp_list(char **envp)
 {
