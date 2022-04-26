@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 19:54:02 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/26 09:42:50 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,35 +44,25 @@ int main(int argc, char **argv, char **envp)
 	while (!exit)
 	{
 		temp = readline(prompt);
-		if (*temp)
+		if (!temp)
+			NULL ;		
+		else if (!ft_strlen(temp))
+			NULL ;
+		else
 		{
 			add_history (temp);
 			input = ft_strdelendchr(temp, ' ');
 			free (temp);
-		}
-		if (ft_strncmp(input, "exit", 5) == 0)
-		{
-			exit = 1;
-			break ;
-		}
-/* Check for `command' "list" to print history  - MAKES LEAKS!! */ 
-/*	    else if (ft_strncmp(input, "list", 5) == 0)
-		{
-			HIST_ENTRY **list;
-			register int i;
-			list = history_list ();
-			i = 0;
-			if (list)
-				while(list[i])
-				{
-					printf ("%d: %s\n", i, list[i]->line);
-					i++;
-				}
-		}*/
-		else
-		{
-			msh_parser(input, envp_list);
-			free(input);
+			if (ft_strncmp(input, "exit", 5) == 0)
+			{
+				exit = 1;
+				break ;
+			}
+			else
+			{
+				msh_parser(input, envp_list);
+				free(input);
+			}
 		}
 	}
 	clear_history();

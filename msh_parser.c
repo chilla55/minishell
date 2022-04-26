@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:21:45 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 20:07:54 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/26 09:35:57 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 int	msh_try_build_in(char *word, char **words, t_envp_list *envp_list)
 {
+	printf("Searching for %s in built-ins\n", words[0]);
 	if (!ft_strncmp(word, "echo", 5))
-		NULL ;
+		return (1) ;
 	else if (!ft_strncmp(word, "export", 7))
-		NULL ;
+		return (1) ;
 	else if (!ft_strncmp(word, "cd", 3))
-		NULL ;
-	
+		return (1) ;
+	else if (!ft_strncmp(word, "echo", 5))
+		return (1) ;
+	printf("%s not built-in\n", words[0]);
+	msh_envp_lstsize(envp_list);
+	return (0);
 }
 
 int	msh_parser(char *input, t_envp_list *envp_list)
@@ -75,7 +80,7 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 		i++;
 	}
 	words[word_count] = NULL;
-	msh_try_build_in(word[0], words, envp_list);
-	mini_execve(words[0], words, msh_create_envp_from_list(envp_list));
+	if (!msh_try_build_in(words[0], words, envp_list))
+		mini_execve(words[0], words, msh_create_envp_from_list(envp_list));
 	return (0);
 }
