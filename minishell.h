@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 18:22:20 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 20:01:20 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_envp_list
 }					t_envp_list;
 
 // msh_parser.c
-int	msh_parser(char *input, char **envp);
+int	msh_parser(char *input, t_envp_list *envp_list);
 
 // msh_envp.c
 t_envp_list	*msh_create_envp_list(char **envp);

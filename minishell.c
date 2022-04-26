@@ -6,13 +6,13 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 19:45:49 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 19:54:02 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_free(char *input, char *temp, char *prompt,
+void	msh_free(char *input, char *prompt,
 			t_envp_list *envp_list, char **envp);
 void	msh_free_envp(char **envp);
 void	msh_free_envp_list(t_envp_list *envp_list);
@@ -29,12 +29,6 @@ int main(int argc, char **argv, char **envp)
 		return (-1);
 	if (argv[1]) // Dummy for gcc -Werror
 		return (-1);
-//	printf("%s\n", getenv("XYZ"));
-//	setenv("XYZ", "XYZ", 1);
-//	printf("%s\n", getenv("XYZ"));
-//	printf("%s\n", envp[0]);
-//	envp[0] = ft_strdup("XYZZ=xyzz");
-//	printf("%s\n", getenv("XYZZ"));
 	envp_list = msh_create_envp_list(envp);
 	msh_set_envp(envp_list, "SHEL", "biba", 0);
 	msh_set_envp(envp_list, "SHELL", "biba", 1);
@@ -43,6 +37,7 @@ int main(int argc, char **argv, char **envp)
 	printf("%s\n", envp[0]);
 	envp = msh_create_envp_from_list(envp_list);
 	printf("%s\n", envp[0]);
+	
 	printf("Hello World! One day, I will be a true MiniShell...\n");
 	prompt = "Try me!$ ";
 	exit = 0;
@@ -60,7 +55,7 @@ int main(int argc, char **argv, char **envp)
 			exit = 1;
 			break ;
 		}
-/* Check for `command' "list" to print history */
+/* Check for `command' "list" to print history  - MAKES LEAKS!! */ 
 /*	    else if (ft_strncmp(input, "list", 5) == 0)
 		{
 			HIST_ENTRY **list;
@@ -76,23 +71,20 @@ int main(int argc, char **argv, char **envp)
 		}*/
 		else
 		{
-			msh_parser(input, envp);
-//			mini_execve(input, argv, envp);
+			msh_parser(input, envp_list);
 			free(input);
 		}
 	}
 	clear_history();
-	msh_free(input, temp, prompt, envp_list, envp);
+	msh_free(input, prompt, envp_list, envp);
 	return (0);
 }
 
-void	msh_free(char *input, char *temp, char *prompt,
+void	msh_free(char *input, char *prompt,
 			t_envp_list *envp_list, char **envp)
 {
 	if (input)
 		free(input);
-	if (temp)
-		NULL;//	free(temp);
 	if (prompt)
 		NULL;//		free(prompt);
 	if (envp_list)

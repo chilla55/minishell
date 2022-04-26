@@ -6,13 +6,24 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:21:45 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/25 15:27:02 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/25 20:07:54 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	msh_parser(char *input, char **envp)
+int	msh_try_build_in(char *word, char **words, t_envp_list *envp_list)
+{
+	if (!ft_strncmp(word, "echo", 5))
+		NULL ;
+	else if (!ft_strncmp(word, "export", 7))
+		NULL ;
+	else if (!ft_strncmp(word, "cd", 3))
+		NULL ;
+	
+}
+
+int	msh_parser(char *input, t_envp_list *envp_list)
 {
 	char	**words;
 	int		i;
@@ -64,6 +75,7 @@ int	msh_parser(char *input, char **envp)
 		i++;
 	}
 	words[word_count] = NULL;
-	mini_execve(words[0], words, envp);
+	msh_try_build_in(word[0], words, envp_list);
+	mini_execve(words[0], words, msh_create_envp_from_list(envp_list));
 	return (0);
 }
