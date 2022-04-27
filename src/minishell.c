@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/26 09:42:50 by skorte           ###   ########.fr       */
+/*   Updated: 2022/04/27 08:02:28 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int main(int argc, char **argv, char **envp)
 		return (-1);
 	if (argv[1]) // Dummy for gcc -Werror
 		return (-1);
+	init_signal();
 	envp_list = msh_create_envp_list(envp);
 	msh_set_envp(envp_list, "SHEL", "biba", 0);
 	msh_set_envp(envp_list, "SHELL", "biba", 1);
@@ -45,7 +46,7 @@ int main(int argc, char **argv, char **envp)
 	{
 		temp = readline(prompt);
 		if (!temp)
-			NULL ;		
+			break ;
 		else if (!ft_strlen(temp))
 			NULL ;
 		else
