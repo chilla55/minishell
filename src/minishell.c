@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/27 08:02:28 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/04/29 09:04:46 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ int main(int argc, char **argv, char **envp)
 	printf("%s\n", envp[0]);
 	
 	printf("Hello World! One day, I will be a true MiniShell...\n");
-	prompt = "Try me!$ ";
 	exit = 0;
 	while (!exit)
 	{
-		temp = readline(prompt);
+		ft_putstr_fd("Try me!:", 1);
+		prompt = getcwd(NULL, 0);
+		ft_putstr_fd(prompt, 1);
+		free(prompt);
+		temp = readline("$ ");
 		if (!temp)
 			break ;
 		else if (!ft_strlen(temp))

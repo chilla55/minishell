@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:21:45 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/26 08:43:38 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/04/28 14:23:12 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	msh_try_build_in(char *word, char **words, t_envp_list *envp_list)
 	else if (!ft_strncmp(word, "export", 7))
 		return (1);
 	else if (!ft_strncmp(word, "cd", 3))
+	{
+		msh_cd(words);
 		return (1);
+	}
 	printf("%s not built-in\n", words[0]);
 	msh_envp_lstsize(envp_list);
 	return (0);

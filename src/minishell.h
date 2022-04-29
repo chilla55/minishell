@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/27 07:57:07 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/04/28 14:25:18 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,9 @@ char		*msh_pwd(void);
 
 // builtins/msh_echo.c
 void		msh_echo(char **argv);
+
+// builtins/msh_cd.c
+void		msh_cd(char **argv);
 
 // signals/signal.c
 void		init_signal(void);
