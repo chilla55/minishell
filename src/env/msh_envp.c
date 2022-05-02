@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 06:15:28 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/26 08:42:03 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/02 10:51:51 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,3 +234,18 @@ int	msh_del_envp(t_envp_list *envp_list, char *name)
 {
 	return (0);
 }*/
+
+
+int			msh_exist_envp(t_envp_list *envp_list, char *name)
+{
+	t_envp_list	*envp_list_element;
+
+	envp_list_element = envp_list;
+	while (envp_list_element)
+	{
+		if (!ft_strncmp(envp_list_element->name, name, ft_strlen(name) + 1))
+			return (1);
+		envp_list_element = envp_list_element->next;
+	}
+	return (0);
+}
