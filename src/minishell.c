@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/29 09:04:46 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/02 10:57:12 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int main(int argc, char **argv, char **envp)
 	exit = 0;
 	while (!exit)
 	{
-		ft_putstr_fd("Try me!:", 1);
-		prompt = getcwd(NULL, 0);
-		ft_putstr_fd(prompt, 1);
+		temp = getcwd(NULL, 0);
+		prompt = ft_strjoin_3("Try me!:", temp, "$ ");
+		free(temp);
+		temp = readline(prompt);
 		free(prompt);
-		temp = readline("$ ");
 		if (!temp)
 			break ;
 		else if (!ft_strlen(temp))

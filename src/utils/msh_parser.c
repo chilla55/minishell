@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:21:45 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/02 08:29:35 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/02 11:05:00 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ int	msh_try_build_in(char *word, char **words, t_envp_list *envp_list)
 	printf("%s not built-in\n", words[0]);
 	msh_envp_lstsize(envp_list);
 	return (0);
+}
+
+void	free_str(char **words)
+{
+	int	i;
+
+	i = 0;
+	while (words[i])
+	{
+		free(words[i]);
+		i++;
+	}
+	free(words);
 }
 
 int	msh_parser(char *input, t_envp_list *envp_list)
@@ -89,5 +102,6 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 	words[word_count] = NULL;
 	if (!msh_try_build_in(words[0], words, envp_list))
 		mini_execve(words[0], words, msh_create_envp_from_list(envp_list));
+	free_str(words);
 	return (0);
 }
