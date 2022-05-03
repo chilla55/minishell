@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/02 10:28:25 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/03 07:48:12 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char		**msh_create_envp_from_list(t_envp_list *envp_list);
 int			msh_set_envp(t_envp_list *envp_list,
 				char *name, char *value, int overwrite);
 int			msh_exist_envp(t_envp_list *envp_list, char *name);
+int			msh_del_envp(t_envp_list *envp_list, char *name);
 // utils/msh_execve.c
 void		mini_execve(char *command, char **argv, char **envp);
 
@@ -119,8 +120,13 @@ void		msh_echo(char **argv);
 
 // builtins/msh_cd.c
 void		msh_cd(char **argv);
-// vuiltins/msh_export.c
+
+// builtins/msh_export.c
 void		msh_export(char	**words, t_envp_list *envp_list);
+
+// builtins/msh_unset.c
+void		msh_unset(char	**words, t_envp_list *envp_list);
+
 // signals/signal.c
 void		init_signal(void);
 

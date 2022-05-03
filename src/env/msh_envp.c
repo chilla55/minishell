@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 06:15:28 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/02 10:51:51 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/03 07:41:52 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,27 +204,35 @@ int		msh_set_envp(t_envp_list *envp_list, char *name, char *value, int overwrite
 		return (0);
 }
 
+void msh_del_envp_free(t_envp_list	*envp_l_e)
+{
+	free(envp_l_e->name);
+	free(envp_l_e->value);
+	free(envp_l_e);
+}
+
 int	msh_del_envp(t_envp_list *envp_list, char *name)
 {
-	t_envp_list	*envp_list_element;
-	t_envp_list *temp;
+	t_envp_list	*envp_l_e;
+	t_envp_list	*temp;
 
-	envp_list_element = msh_get_envp_ptr(envp_list, name);
-	if (!envp_list_element)
-		return (-1);
-	else if (!envp_list_element->next)
-		NULL;
-	else
+	envp_l_e = envp_list;
+	if (!ft_strncmp(envp_l_e->name, name, ft_strlen(name) + 1))
 	{
-		temp = envp_list_element->next;
-		free(envp_list_element->value);
-		envp_list_element->value = ft_strdup(envp_list_element->next->value);
-		free(envp_list_element->name);
-		envp_list_element->value = ft_strdup(envp_list_element->next->name);
-		envp_list_element->next = envp_list_element->next->next;
-		free(temp->name);
-		free(temp->value);
-		free(temp);
+		envp_list = envp_l_e->next;
+		msh_del_envp_free(envp_l_e);
+		return (1);
+	}
+	while (envp_l_e->next)
+	{
+		if (!ft_strncmp(envp_l_e->next->name, name, ft_strlen(name) + 1))
+		{
+			temp = envp_l_e->next->next;
+			msh_del_envp_free(envp_l_e->next);
+			envp_l_e->next = temp;
+			return (1);
+		}
+		envp_l_e = envp_l_e->next;
 	}
 	return (0);
 }
