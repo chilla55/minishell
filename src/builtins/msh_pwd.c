@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/26 08:42:06 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:07:39 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,14 @@ char	*msh_pwd(void)
 	rtn = ft_strdup(buffer);
 	free(buffer);
 	return (rtn);
+}
+
+void	msh_pwd_cmd(void)
+{
+	char	*path;
+
+	path = msh_pwd();
+	write(1, path, ft_strlen(path));
+	write(1, "\n", 1);
+	free(path);
 }

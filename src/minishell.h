@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/03 07:48:12 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:04:58 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void		mini_execve(char *command, char **argv, char **envp);
 
 // builtins/msh_pwd.c
 char		*msh_pwd(void);
+void		msh_pwd_cmd(void);
 
 // builtins/msh_echo.c
 void		msh_echo(char **argv);
