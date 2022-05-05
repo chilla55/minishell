@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/03 08:04:58 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/03 13:30:02 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,16 @@ typedef struct s_envp_list
 	char				*value;
 	struct s_envp_list	*next;
 }					t_envp_list;
+// main.c
+void		msh_free_envp_list(t_envp_list *envp_list);
 
 // utils/msh_parser.c
 int			msh_parser(char *input, t_envp_list *envp_list);
+int			msh_try_build_in(char *word, char **words, t_envp_list *envp_list);
 
 // env/msh_envp.c
 t_envp_list	*msh_create_envp_list(char **envp);
+t_envp_list	*msh_copy_envp_list(t_envp_list *old_envp_list);
 t_envp_list	*msh_envp_lstnew(char *content);
 t_envp_list	*msh_envp_lstnew_2(char *name, char *value);
 int			msh_print_envp_list(t_envp_list *envp_list);
@@ -124,9 +128,13 @@ void		msh_cd(char **argv);
 
 // builtins/msh_export.c
 void		msh_export(char	**words, t_envp_list *envp_list);
+void		free_split(char **strarr);
 
 // builtins/msh_unset.c
 void		msh_unset(char	**words, t_envp_list *envp_list);
+
+// builtins/mash_env.c
+void		msh_env(char **words, t_envp_list *envp_list);
 
 // signals/signal.c
 void		init_signal(void);
