@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/03 13:30:02 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:51:51 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,32 @@ void		msh_free_envp_list(t_envp_list *envp_list);
 int			msh_parser(char *input, t_envp_list *envp_list);
 int			msh_try_build_in(char *word, char **words, t_envp_list *envp_list);
 
-// env/msh_envp.c
+// env/envp_create.c
 t_envp_list	*msh_create_envp_list(char **envp);
 t_envp_list	*msh_copy_envp_list(t_envp_list *old_envp_list);
-t_envp_list	*msh_envp_lstnew(char *content);
-t_envp_list	*msh_envp_lstnew_2(char *name, char *value);
-int			msh_print_envp_list(t_envp_list *envp_list);
+char		**msh_create_envp_from_list(t_envp_list *envp_list);
+
+// env/envp_del.c
+int			msh_del_envp(t_envp_list *envp_list, char *name);
+
+// env/envp_get.c
+t_envp_list	*msh_get_envp_ptr(t_envp_list *envp_list, char *name);
 char		*msh_get_envp_name(char *content);
 char		*msh_get_envp_value(t_envp_list *envp_list, char *name);
-int			msh_envp_lstsize(t_envp_list *lst);
-char		**msh_create_envp_from_list(t_envp_list *envp_list);
+
+// env/envp_lst_new.c
+t_envp_list	*msh_envp_lstnew(char *content);
+t_envp_list	*msh_envp_lstnew_2(char *name, char *value);
+
+// env/envp_set.c
 int			msh_set_envp(t_envp_list *envp_list,
 				char *name, char *value, int overwrite);
+
+// env/envp_utils.c
 int			msh_exist_envp(t_envp_list *envp_list, char *name);
-int			msh_del_envp(t_envp_list *envp_list, char *name);
+int			msh_print_envp_list(t_envp_list *envp_list);
+int			msh_envp_lstsize(t_envp_list *lst);
+
 // utils/msh_execve.c
 void		mini_execve(char *command, char **argv, char **envp);
 
