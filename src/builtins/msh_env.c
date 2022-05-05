@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:54:40 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/05/04 10:24:55 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:30:39 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	msh_env(char **words, t_envp_list *envp_list)
 	if (!words[1])
 		return ;
 	new_envp_l = msh_copy_envp_list(envp_list);
-	command = ft_calloc(1, 8);
+	command = ft_calloc(2, sizeof(char *));
 	if (words[2])
 		command[0] = ft_strdup(msh_env_worker(words, new_envp_l, 1));
 	else

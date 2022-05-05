@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:17:00 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/26 08:41:59 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:35:05 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ void	mini_execve(char *command, char **argv, char **envp)
 	{
 		wait(0);
 		printf("Parent has waited for child process to end\n");
+		mini_execve_free_paths(envp);
 	}
 }
