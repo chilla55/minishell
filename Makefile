@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+         #
+#    By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/01 03:58:29 by agrotzsc          #+#    #+#              #
-#    Updated: 2022/04/26 15:50:51 by agrotzsc         ###   ########.fr        #
+#    Updated: 2022/05/05 19:34:24 by skorte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ GREEN			=	\033[0;92m
 YELLOW			=	\033[0;93m
 RM				=	rm -rf
 
-#---- Directorys --------------------------------------------------------------#
+#---- Directories -------------------------------------------------------------#
 
 SRC_DIR			=	src/
 OBJ_DIR			=	obj/
@@ -40,7 +40,7 @@ SOURCES = $(shell find $(SRC_DIR) -name '*.c')
 
 OBJS = $(SOURCES:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-#---- Libaries ----------------------------------------------------------------#
+#---- Libraries ---------------------------------------------------------------#
 
 LIBFT_DIR		=	./includes/libft/
 LIBFT_FILES		=	libft.a
