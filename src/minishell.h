@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/05 16:51:51 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/07 09:14:35 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,14 @@ typedef struct s_envp_list
 	char				*value;
 	struct s_envp_list	*next;
 }					t_envp_list;
+
+typedef struct s_exe_list
+{
+	char				*command;
+	char				**argv;
+	struct s_exe_list	*next;
+}					t_exe_list;
+
 // main.c
 void		msh_free_envp_list(t_envp_list *envp_list);
 
