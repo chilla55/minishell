@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/07 09:14:35 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/10 21:43:01 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,15 @@ void		msh_env(char **words, t_envp_list *envp_list);
 
 // signals/signal.c
 void		init_signal(void);
+
+// pipes/run_exe_list.c
+int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list);
+
+// pipes/run_command.c
+int	run_command(t_exe_list *exe_list_element, t_envp_list *envp_list);
+
+// utils/msh_free.c
+void	free_paths(char **paths);
+void	free_exe_list(t_exe_list *exe_list);
 
 #endif
