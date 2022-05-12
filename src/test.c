@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 09:22:09 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/10 22:28:15 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/12 13:49:39 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **envp)
 	char	*command_1 = "cat src/minishell.c";
 //	char	*command_1 = "echo hello world";
 	char	*command_2 = "grep h";
-	char	*command_3 = "wc -l";
+	char	*command_3 = "wc";
 
 	argc++;
 	argv[0] = NULL;
@@ -36,5 +36,6 @@ int main(int argc, char **argv, char **envp)
 	exe_list->next->next->command = ft_strdup(exe_list->next->next->argv[0]);
 	exe_list->next->next->next = NULL;
 	init_exe(exe_list, msh_create_envp_list(envp));
+	msh_free_envp_list(envp_list);
 	return (0);
 }
