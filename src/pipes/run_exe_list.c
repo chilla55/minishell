@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/10 22:32:04 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/12 13:08:40 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,27 @@ static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	int		fd_pipe[2];
 	pid_t	child_pid;
 
+	child_pid = pipe_and_fork(fd_pipe);
 	if (!exe_list->next)
 	{
-		fd_duplicator(fd_in, fd_out);
-		run_command(exe_list, envp_list);
-		return (0);
-	}
-	child_pid = pipe_and_fork(fd_pipe);
-	if (!child_pid)
-	{
-		fd_duplicator(fd_in, fd_pipe[1]);
-		run_command(exe_list, envp_list);
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
+		if (!child_pid)
+		{
+			fd_duplicator(fd_in, fd_out);
+			run_command(exe_list, envp_list);
+		}
 	}
 	else
-		run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
+	{
+		if (!child_pid)
+		{
+			fd_duplicator(fd_in, fd_pipe[1]);
+			run_command(exe_list, envp_list);
+		}
+		else
+			run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
+	}
 	return (0);
 }
 
