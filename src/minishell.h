@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/10 21:43:01 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/13 09:01:15 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,17 @@ typedef struct s_exe_list
 // main.c
 void		msh_free_envp_list(t_envp_list *envp_list);
 
-// utils/msh_parser.c
+// parser/parse.c
+char		*join_try_free(char *a, char *b);
+char		*squote_parse(char *input, int *i);
+char		*env_parse(char *input, int *i, t_envp_list *envp_list);
+char		*dquote_parse(char *input, int *i, t_envp_list *envp_list);
+
+// parser/parse2.c
 int			msh_parser(char *input, t_envp_list *envp_list);
-int			msh_try_build_in(char *word, char **words, t_envp_list *envp_list);
+
+// parse/ft_split_parse.c
+char		**ft_split_parse(char const *s, char c);
 
 // env/envp_create.c
 t_envp_list	*msh_create_envp_list(char **envp);
@@ -160,13 +168,13 @@ void		msh_env(char **words, t_envp_list *envp_list);
 void		init_signal(void);
 
 // pipes/run_exe_list.c
-int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list);
+int			init_exe(t_exe_list *exe_list, t_envp_list *envp_list);
 
 // pipes/run_command.c
-int	run_command(t_exe_list *exe_list_element, t_envp_list *envp_list);
+int			run_command(t_exe_list *exe_list_element, t_envp_list *envp_list);
 
 // utils/msh_free.c
-void	free_paths(char **paths);
-void	free_exe_list(t_exe_list *exe_list);
+void		free_paths(char **paths);
+void		free_exe_list(t_exe_list *exe_list);
 
 #endif
