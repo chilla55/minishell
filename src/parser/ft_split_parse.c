@@ -57,7 +57,7 @@ static void	ft_str_words(char const *s, char **dest, char c)
 {
 	int	*i;
 
-	i = ft_calloc(5, sizeof(int));
+	i = ft_calloc(6, sizeof(int));
 	while (i[0] <= (int)ft_strlen(s))
 	{
 		if (s[i[0]] == '\'' && !i[4])
