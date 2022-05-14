@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/02 10:57:12 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/14 11:58:18 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int main(int argc, char **argv, char **envp)
 	char		*input;
 	char		*temp;
 	char		*prompt;
-	int			exit;
 	t_envp_list	*envp_list;
 
 	if (argc != 1) // Dummy for gcc -Werror
@@ -40,8 +39,7 @@ int main(int argc, char **argv, char **envp)
 	printf("%s\n", envp[0]);
 	
 	printf("Hello World! One day, I will be a true MiniShell...\n");
-	exit = 0;
-	while (!exit)
+	while (1)
 	{
 		temp = getcwd(NULL, 0);
 		prompt = ft_strjoin_3("Try me!:", temp, "$ ");
@@ -58,21 +56,16 @@ int main(int argc, char **argv, char **envp)
 			input = ft_strdelendchr(temp, ' ');
 			free (temp);
 			if (ft_strncmp(input, "exit", 5) == 0)
-			{
-				exit = 1;
 				break ;
-			}
-			else
-			{
-				msh_parser(input, envp_list);
-				free(input);
-			}
+			msh_parser(input, envp_list);
+			free(input);
 		}
 	}
 	clear_history();
 	msh_free(input, prompt, envp_list, envp);
 	return (0);
 }
+
 
 void	msh_free(char *input, char *prompt,
 			t_envp_list *envp_list, char **envp)

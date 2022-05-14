@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/10 22:27:27 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/14 11:56:32 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	execve_extern(char *command, char **argv, char **envp)
 	}
 	write(2, &"Error: Command not found\n", 25);
 	free_paths(paths);
-	return (-1);
+	exit (-1);
 }
 
 static int	try_build_in(char *word, char **words, t_envp_list *envp_list)
