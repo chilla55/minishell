@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/19 14:14:16 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/19 16:27:15 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,9 @@ int			msh_set_envp(t_envp_list *envp_list,
 int			msh_exist_envp(t_envp_list *envp_list, char *name);
 int			msh_print_envp_list(t_envp_list *envp_list);
 int			msh_envp_lstsize(t_envp_list *lst);
+
+//void		msh_redirect_to_file(char *path, int append);
+//void		msh_read_from_file(char *path);
 
 // builtins/msh_pwd.c
 char		*msh_pwd(void);
