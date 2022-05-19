@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:54:40 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/05/05 16:30:39 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/19 10:30:14 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,18 @@ char	*msh_env_worker(char **words, t_envp_list *envp_list, int i)
 void	msh_env(char **words, t_envp_list *envp_list)
 {
 	t_envp_list	*new_envp_l;
-	char		**command;
+	t_exe_list	*entry;
 
 	if (!words[1])
 		return ;
 	new_envp_l = msh_copy_envp_list(envp_list);
-	command = ft_calloc(2, sizeof(char *));
+	entry = ft_calloc(1, sizeof(t_exe_list));
+	entry->argv = ft_calloc(2, sizeof(char *));
 	if (words[2])
-		command[0] = ft_strdup(msh_env_worker(words, new_envp_l, 1));
+		entry->argv[0] = ft_strdup(msh_env_worker(words, new_envp_l, 1));
 	else
-		command[0] = ft_strdup(words[1]);
-	mini_execve(command[0], command, msh_create_envp_from_list(new_envp_l));
-	free_split(command);
+		entry->argv[0] = ft_strdup(words[1]);
+	entry->command = ft_strdup(entry->argv[0]);
+	init_exe(entry, new_envp_l);
 	msh_free_envp_list(new_envp_l);
 }

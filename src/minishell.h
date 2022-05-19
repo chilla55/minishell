@@ -6,7 +6,11 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/05/19 15:56:09 by skorte           ###   ########.fr       */
+=======
+/*   Updated: 2022/05/19 14:14:16 by agrotzsc         ###   ########.fr       */
+>>>>>>> 3df3da1217bd0ffdb99694b926873a99f8fe7eeb
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +145,8 @@ int			msh_exist_envp(t_envp_list *envp_list, char *name);
 int			msh_print_envp_list(t_envp_list *envp_list);
 int			msh_envp_lstsize(t_envp_list *lst);
 
-// 
-void	msh_redirect_to_file(char *path, int append);
-void	msh_read_from_file(char *path);
-
-// utils/msh_execve.c
-void		mini_execve(char *command, char **argv, char **envp);
+//void		msh_redirect_to_file(char *path, int append);
+//void		msh_read_from_file(char *path);
 
 // builtins/msh_pwd.c
 char		*msh_pwd(void);

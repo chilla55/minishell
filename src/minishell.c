@@ -3,42 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/14 11:58:18 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/19 10:40:30 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_free(char *input, char *prompt,
-			t_envp_list *envp_list, char **envp);
-void	msh_free_envp(char **envp);
+void	msh_free(char *input, t_envp_list *envp_list);
+void	loop(char *input, char *prompt, t_envp_list *envp_list);
 void	msh_free_envp_list(t_envp_list *envp_list);
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
-	char		*temp;
 	char		*prompt;
 	t_envp_list	*envp_list;
 
-	if (argc != 1) // Dummy for gcc -Werror
-		return (-1);
-	if (argv[1]) // Dummy for gcc -Werror
-		return (-1);
+	(void)argc;
+	(void)argv;
+	input = 0x0;
+	prompt = 0x0;
 	init_signal();
 	envp_list = msh_create_envp_list(envp);
-	msh_set_envp(envp_list, "SHEL", "biba", 0);
-	msh_set_envp(envp_list, "SHELL", "biba", 1);
-	msh_print_envp_list(envp_list);
-	printf("%s\n", msh_get_envp_value(envp_list, "SHELL"));
-	printf("%s\n", envp[0]);
-	envp = msh_create_envp_from_list(envp_list);
-	printf("%s\n", envp[0]);
-	
-	printf("Hello World! One day, I will be a true MiniShell...\n");
+	msh_set_envp(envp_list, "SHELL", "minishell", 1);
+	loop(input, prompt, envp_list);
+	clear_history();
+	return (0);
+}
+
+void	loop(char *input, char *prompt, t_envp_list *envp_list)
+{
+	char		*temp;
+
 	while (1)
 	{
 		temp = getcwd(NULL, 0);
@@ -61,36 +60,15 @@ int main(int argc, char **argv, char **envp)
 			free(input);
 		}
 	}
-	clear_history();
-	msh_free(input, prompt, envp_list, envp);
-	return (0);
+	msh_free(input, envp_list);
 }
 
-
-void	msh_free(char *input, char *prompt,
-			t_envp_list *envp_list, char **envp)
+void	msh_free(char *input, t_envp_list *envp_list)
 {
 	if (input)
 		free(input);
-	if (prompt)
-		NULL;//		free(prompt);
 	if (envp_list)
 		msh_free_envp_list(envp_list);
-	if (envp)
-		msh_free_envp(envp);
-}
-
-void	msh_free_envp(char **envp)
-{
-	char		**env;
-
-	env = envp;
-	while (*env != NULL)
-	{
-		free(*env);
-		env++;
-	}
-	free (envp);
 }
 
 void	msh_free_envp_list(t_envp_list *envp_list)
