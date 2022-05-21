@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exe_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/12 18:35:32 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/19 14:26:40 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ static int	pipe_and_fork(int *fd_pipe);
 static int	fd_duplicator(int fd_in, int fd_out);
 
 /*
-** init_exe 
-** - makes backups of standard input and output.
-** - starts execution of exe_list.
-** - waits for the processes to finish.
-** - resets standard input and output.
-** - frees exe_list and envp_list.
+* init_exe 
+* - makes backups of standard input and output.
+* - starts execution of exe_list.
+* - waits for the processes to finish.
+* - resets standard input and output.
+* - frees exe_list and envp_list.
 */
-
 int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 {
 	int	fd_in;
@@ -45,11 +44,21 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 }
 
 /*
-** run_exe_list
-** - tries to run all commands in the given exe_list.
-** - pipes the output of one command to the input of the next.
+* run_exe_extend
+* - extend function for run_exe_list.
 */
+void	run_exe_extend(int fd_in, int fd_out,
+			t_exe_list *exe_list, t_envp_list *envp_list)
+{
+	fd_duplicator(fd_in, fd_out);
+	run_command(exe_list, envp_list);
+}
 
+/*
+* run_exe_list
+* - tries to run all commands in the given exe_list.
+* - pipes the output of one command to the input of the next.
+*/
 static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	int fd_in, int fd_out)
 {
@@ -64,16 +73,14 @@ static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 		close(fd_pipe[1]);
 		if (child_pid == 0)
 		{
-			fd_duplicator(fd_in, fd_out);
-			run_command(exe_list, envp_list);
+			run_exe_extend(fd_in, fd_out, exe_list, envp_list);
 		}
 	}
 	else
 	{
 		if (child_pid == 0)
 		{
-			fd_duplicator(fd_in, fd_pipe[1]);
-			run_command(exe_list, envp_list);
+			run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
 		}
 		else
 			run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
@@ -83,9 +90,8 @@ static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 }
 
 /*
-** sets fd_in and fd_out as standart input and output
+* sets fd_in and fd_out as standart input and output
 */
-
 static int	fd_duplicator(int fd_in, int fd_out)
 {
 	if (dup2(fd_in, STDIN_FILENO) < 0 || dup2(fd_out, STDOUT_FILENO) < 0)
@@ -97,11 +103,10 @@ static int	fd_duplicator(int fd_in, int fd_out)
 }
 
 /*
-** initializes pipe
-** forks process
-** closes unused end of pipe for child and parent process
+* initializes pipe
+* forks process
+* closes unused end of pipe for child and parent process
 */
-
 static int	pipe_and_fork(int *fd_pipe)
 {
 	int	child_pid;
