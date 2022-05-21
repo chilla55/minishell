@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/05/19 15:56:24 by skorte           ###   ########.fr       */
-=======
-/*   Updated: 2022/05/19 10:40:30 by agrotzsc         ###   ########.fr       */
->>>>>>> e2b36db8af0a456fe42b2eded23b5a001220818f
+/*   Updated: 2022/05/21 18:21:38 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
