@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/14 11:56:32 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/21 18:38:02 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,14 @@ static int	try_build_in(char *word, char **words, t_envp_list *envp_list)
 		msh_pwd_cmd();
 	else if (!ft_strncmp(word, "env", 4))
 		msh_env(words, envp_list);
+	else if (!ft_strncmp(word, ">>", 2))
+		msh_redirect_to_file(words[1], 1);
+	else if (!ft_strncmp(word, ">", 1))
+		msh_redirect_to_file(words[1], 0);
+	else if (!ft_strncmp(word, "<<", 3))
+		msh_read_input_till_delimiter(words[1]);
+	else if (!ft_strncmp(word, "<", 2))
+		msh_read_from_file(words[1]);
 	else
 		return (0);
 	exit (0);
