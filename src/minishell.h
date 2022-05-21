@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/13 09:01:15 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/21 18:13:05 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // rl_replace_line, rl_redisplay, add_history
 # include <stdio.h>
 // printf
-# include <stdlib.h>	
+# include <stdlib.h>
 // malloc, free, exit
 // getenv (get an environment variable)
 # include <unistd.h>
@@ -163,6 +163,11 @@ void		msh_unset(char	**words, t_envp_list *envp_list);
 
 // builtins/mash_env.c
 void		msh_env(char **words, t_envp_list *envp_list);
+
+// builtins/msh_redirections.c
+void		msh_redirect_to_file(char *path, int append);
+void		msh_read_from_file(char *path);
+void		msh_read_input_till_delimiter(char *delimiter);
 
 // signals/signal.c
 void		init_signal(void);
