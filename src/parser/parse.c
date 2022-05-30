@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:44:00 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/05/13 08:57:13 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/26 13:19:39 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,14 @@ char	*env_parse(char *input, int *i, t_envp_list *envp_list)
 	char	*ret;
 
 	a = 1;
-	while (ft_isalnum(input[a + i[0]]) && input[a + i[0]])
+	if (input[a + i[0]] == '?' && input[a + i[0] - 1] == '$')
 		a++;
-	a--;
+	else
+	{
+		while (ft_isalnum(input[a + i[0]]) && input[a + i[0]])
+			a++;
+		a--;
+	}
 	tmp = ft_substr(input, i[0] + 1, a);
 	ret = msh_get_envp_value(envp_list, tmp);
 	free (tmp);
@@ -62,9 +67,14 @@ char	*dqute_env_parse(char *input, int *i, t_envp_list *envp_list)
 	char	*ret;
 
 	a = 1;
-	while (ft_isalnum(input[a + *i]) && input[a + *i])
+	if (input[a + *i] == '?' && input[a + *i - 1] == '$')
 		a++;
-	a--;
+	else
+	{
+		while (ft_isalnum(input[a + *i]) && input[a + *i])
+			a++;
+		a--;
+	}
 	tmp = ft_substr(input, *i + 1, a);
 	ret = msh_get_envp_value(envp_list, tmp);
 	free (tmp);

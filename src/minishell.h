@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/21 18:21:36 by skorte           ###   ########.fr       */
+/*   Updated: 2022/05/30 19:54:50 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ t_envp_list	*msh_envp_lstnew_2(char *name, char *value);
 // env/envp_set.c
 int			msh_set_envp(t_envp_list *envp_list,
 				char *name, char *value, int overwrite);
+int			msh_set_envp_free_value(t_envp_list *envp_list, char *name,
+				char *value, int overwrite);
 
 // env/envp_utils.c
 int			msh_exist_envp(t_envp_list *envp_list, char *name);
