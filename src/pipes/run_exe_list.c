@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/19 14:26:40 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/05/30 19:55:15 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,20 @@ static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
 		if (child_pid == 0)
-		{
 			run_exe_extend(fd_in, fd_out, exe_list, envp_list);
-		}
 	}
 	else
 	{
 		if (child_pid == 0)
-		{
 			run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
-		}
 		else
 			run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
 	}
-	waitpid(child_pid, &status, 0);
+	if (waitpid(child_pid, &status, 0) > -1)
+	{
+		if (status != 0 || !exe_list->next)
+			msh_set_envp_free_value(envp_list, "?", ft_itoa(status), 1);
+	}
 	return (0);
 }
 
