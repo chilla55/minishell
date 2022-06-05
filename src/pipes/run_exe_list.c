@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/31 22:53:36 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/05 23:25:29 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,11 @@ static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 		else
 			run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
 	}
-	waitpid(child_pid, &status, 0);
+	if (waitpid(child_pid, &status, 0) > -1)
+	{
+		if (status != 0 || !exe_list->next)
+			msh_set_envp_free_value(envp_list, "?", ft_itoa(status), 1);
+	}
 	return (0);
 }
 

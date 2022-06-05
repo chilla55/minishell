@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/31 23:02:35 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/05 23:26:06 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ t_envp_list	*msh_envp_lstnew_2(char *name, char *value);
 // env/envp_set.c
 int			msh_set_envp(t_envp_list *envp_list,
 				char *name, char *value, int overwrite);
+int			msh_set_envp_free_value(t_envp_list *envp_list, char *name,
+				char *value, int overwrite);
 
 // env/envp_utils.c
 int			msh_exist_envp(t_envp_list *envp_list, char *name);
