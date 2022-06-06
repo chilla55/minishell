@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/05/31 22:39:58 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/07 00:12:36 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,59 +89,29 @@ char	**createwords(char *input, t_envp_list *envp_list)
 t_exe_list	*createentry(char *input, t_envp_list *envp_list)
 {
 	t_exe_list	*entry;
+	int			i;
 
 	if (!input)
 		return (NULL);
-	if (input[0] == '\0')
+	i = 0;
+	if (input[i] == '\0')
 		return (NULL);
 	entry = ft_calloc(1, sizeof(t_exe_list));
 	entry->argv = createwords(input, envp_list);
 	entry->command = ft_strdup(entry->argv[0]);
-	printf("creating %s\n", input);
 	return (entry);
 }
 
-t_exe_list	*createentry_2(char *input, t_envp_list *envp_list)
-{
-	char		*input_1;
-	char		*input_2;
-	int			length;
-	t_exe_list	*entry;
-
-	input_1 = NULL;
-	input_2 = NULL;
-	entry = NULL;
-	if (ft_strchr(input, '>'))
-	{
-		input_2 = ft_strdup(ft_strchr(input, '>'));
-		length = ft_strlen(input) - ft_strlen(input_2);
-		if (length)
-		{
-			input_1 = malloc(sizeof(char) * (length + 1));
-			ft_strlcpy(input_1, input, length + 1);
-		}
-	}
-	else if (ft_strchr(input, '<'))
-	{
-		input_1 = ft_strdup(ft_strchr(input, '<'));
-		length = ft_strlen(input) - ft_strlen(input_1);
-		if (length)
-		{
-			input_2 = malloc(sizeof(char) * (length + 1));
-			ft_strlcpy(input_2, input, length);
-		}
-	}
-	else
-	{
-		return (createentry(input, envp_list));
-	}
-	entry = createentry(input_1, envp_list);
-	if (entry)
-		entry->next = createentry(input_2, envp_list);
-	else
-		entry = createentry(input_2, envp_list);
-	return (entry);
-}
+/*
+** msh_parser 
+** - takes the input string from readline,
+** - inserts pipes for redirections where necessary,
+** - splits the input string into an array of strings for each command,
+** - sorts the array of strings to get redirection commands in right positions,
+** - creates a t_exe_list with entries for each command,
+** - frees the array of strings,
+** - starts init_exe to run the created t_exe_list.
+*/
 
 int	msh_parser(char *input, t_envp_list *envp_list)
 {
@@ -159,14 +129,14 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 	{
 		if (i == 0)
 		{
-			exe_list = createentry_2(input_split[i], envp_list);
+			exe_list = createentry(input_split[i], envp_list);
 			exe_work = exe_list;
 			i++;
 			continue ;
 		}
 		while (exe_work->next)
 			exe_work = exe_work->next;
-		exe_work->next = createentry_2(input_split[i], envp_list);
+		exe_work->next = createentry(input_split[i], envp_list);
 		exe_work = exe_work->next;
 		i++;
 	}
@@ -199,24 +169,36 @@ char	*ft_insert_pipes(char *input)
 	}
 	else if (temp[0] == '<' || temp[0] == '>')
 		temp = ft_strjoin_frees2("echo -n \"\" ", temp);
+	else if (temp[0] == '\'' && !dq)
+		sq = (sq + 1) % 2;
+	else if (temp[0] == '\"' && !sq)
+		dq = (dq + 1) % 2;
 	while (temp[i])
 	{
 		if (temp[i] == '\'' && !dq)
-				sq = (sq + 1) % 2;
+			sq = (sq + 1) % 2;
 		else if (temp[i] == '\"' && !sq)
-				dq = (dq + 1) % 2;
-		else if ((temp[i] == '<' && temp[i + 1] == '<' && !sq && !dq )
-				||( temp[i] == '>' && temp[i + 1] == '>' && !sq && !dq ))
+			dq = (dq + 1) % 2;
+		else if ((temp[i] == '<' && temp[i + 1] == '<' && !sq && !dq)
+			|| (temp[i] == '>' && temp[i + 1] == '>' && !sq && !dq))
 		{
-			temp = ft_strinsertchar(temp, '|', i);
+			if (temp[i - 1] == '|')
+				i--;
+			else
+				temp = ft_strinsertchar(temp, '|', i);
 			i = i + 3;
 			temp = ft_strinsertchar(temp, ' ', i);
 			i = ft_find_word_end(temp, i);
+			while (temp[i] == ' ')
+				i++;
 			temp = ft_strinsertchar(temp, '|', i);
 		}
-		else if ((temp[i] == '<' || temp[i] == '>') && !sq && !dq )
+		else if ((temp[i] == '<' || temp[i] == '>') && !sq && !dq)
 		{
-			temp = ft_strinsertchar(temp, '|', i);
+			if (temp[i - 1] == '|')
+				i--;
+			else
+				temp = ft_strinsertchar(temp, '|', i);
 			i = i + 2;
 			temp = ft_strinsertchar(temp, ' ', i);
 			i = ft_find_word_end(temp, i);
@@ -251,7 +233,7 @@ char	*ft_strinsertchar(char *str, char c, int pos)
 	char	*str2;
 	char	*c_str;
 	char	*dest;
-	
+
 	if (!str)
 		return (NULL);
 	if (pos > (int)ft_strlen(str))
@@ -270,7 +252,7 @@ char	*ft_strinsertchar(char *str, char c, int pos)
 	return (dest);
 }
 
-int		ft_find_word_end(char *temp, int i)
+int	ft_find_word_end(char *temp, int i)
 {
 	int	sq;
 	int	dq;
@@ -279,7 +261,7 @@ int		ft_find_word_end(char *temp, int i)
 	dq = 0;
 	while (temp[i] == ' ')
 		i++;
-	while (temp[i] != ' ' || sq || dq )
+	while (temp[i] != ' ' || sq || dq)
 	{
 		if (temp[i] == '\0')
 			break ;

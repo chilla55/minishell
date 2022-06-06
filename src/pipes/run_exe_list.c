@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/05 23:25:29 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/06 17:26:46 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,12 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 	stdout_envp[0] = ft_strdup("export");
 	stdout_envp[1] = ft_strjoin_frees2("STDOUT_BACKUP=", ft_itoa(fd_out));
 	stdout_envp[2] = NULL;
-	write(1, stdout_envp[1], ft_strlen(stdout_envp[1]));
 	msh_export(stdout_envp, envp_list);
 	run_exe_list(exe_list, envp_list, fd_in, fd_out);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_in);
 	close(fd_out);
-//	free_split(stdout_envp);
 	free_exe_list(exe_list);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/06 16:51:39 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/07 00:14:56 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	msh_read_input_till_delimiter(char *delimiter,
 			char *silent, t_envp_list *envp_list)
 {
 	char	*input;
-	char 	*input_2;
 	int		stdout_envp;
 	int		stdout_backup;
 
@@ -85,18 +84,14 @@ void	msh_read_input_till_delimiter(char *delimiter,
 	stdout_envp = ft_atoi(msh_get_envp_value(envp_list, "STDOUT_BACKUP"));
 	dup2(stdout_envp, STDOUT_FILENO);
 	input = read_input(delimiter);
-	input_2 = insert_envp(input, envp_list);
+	input = insert_envp(input, envp_list);
 	dup2(stdout_backup, STDOUT_FILENO);
 	close(stdout_backup);
+	input = ft_strjoin_try_free(input, "\n");
 	if (!silent)
-	{
-		write(STDOUT_FILENO, input_2, ft_strlen(input_2));
-		write(STDOUT_FILENO, &"\n", 1);
-	}
+		write(STDOUT_FILENO, input, ft_strlen(input));
 	if (input)
 		free(input);
-	if (input_2)
-		free(input_2);
 	return ;
 }
 
@@ -115,7 +110,8 @@ static char	*read_input(char *delimiter)
 		input = append_line(input, line);
 		free(line);
 	}
-	free(line);
+	if (line)
+		free (line);
 	return (input);
 }
 
@@ -147,26 +143,25 @@ static char	*insert_envp(char *input, t_envp_list *envp_list)
 	i = 1;
 	if (!input)
 		return (NULL);
-	ptr = ft_strchr(input, '$');
+	temp = ft_strdup(input);
+	ptr = ft_strchr(temp, '$');
 	if (!ptr)
-		return (input);
+		return (temp);
 	while (ptr)
 	{
-		temp = ft_substr(input, 0, ft_strlen(input) - ft_strlen(ptr));
-//		printf(" %s \n", temp);
+		free (input);
+		input = ft_substr(temp, 0, ft_strlen(temp) - ft_strlen(ptr));
 		while (ft_isalnum(ptr[i]))
 			i++;
 		envp = ft_substr(ptr, 1, i - 1);
-		printf("get %s :\n %s ***\n", envp, msh_get_envp_value(envp_list, envp));
-		temp = ft_strjoin(temp, msh_get_envp_value(envp_list, envp));
-//		printf(" %s \n", temp);
+		input = ft_strjoin_free(input, msh_get_envp_value(envp_list, envp));
 		free(envp);
 		if (ptr + i)
-			input = ft_strjoin(temp, ptr + i);
-//		printf("***%s***\n", input);
+		{
+			input = ft_strjoin_frees1(input, ptr + i);
+			free(temp);
+		}
 		ptr = ft_strchr(input, '$');
 	}
 	return (input);
-//	free(input);
-//	return (NULL);//msh_get_envp_value(envp_list, envp));
 }

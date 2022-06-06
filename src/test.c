@@ -6,15 +6,17 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 09:22:09 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/12 18:17:53 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/06 17:28:14 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list);
+int		init_exe(t_exe_list *exe_list, t_envp_list *envp_list);
+void	msh_redirect_to_file(char *path, int append);
+void	msh_read_from_file(char *path);
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
 	t_exe_list *exe_list;
 	t_envp_list *envp_list;
@@ -39,5 +41,8 @@ int main(int argc, char **argv, char **envp)
 	envp_list = msh_create_envp_list(envp);
 	init_exe(exe_list, envp_list);
 	msh_free_envp_list(envp_list);
+
+//	msh_redirect_to_file("text", 1);
+	msh_read_from_file("text");
 	return (0);
-}
+}*/
