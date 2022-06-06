@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/02 23:15:52 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/06 16:51:39 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	msh_redirect_to_file(char *path, int append)
 	{
 		write(fd_file, &ch, 1);
 	}
-	write(fd_file, &"\0", 1);
 	close(fd_file);
 	return ;
 }
