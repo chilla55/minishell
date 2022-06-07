@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exe_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/06 17:26:46 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/07 12:20:48 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 {
 	int		fd_in;
 	int		fd_out;
-	char	*stdout_envp[2];
+	char	*stdout_envp[3];
 
 	if (!exe_list)
 		return (-1);
@@ -40,6 +40,8 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 	stdout_envp[1] = ft_strjoin_frees2("STDOUT_BACKUP=", ft_itoa(fd_out));
 	stdout_envp[2] = NULL;
 	msh_export(stdout_envp, envp_list);
+	free(stdout_envp[0]);
+	free(stdout_envp[1]);
 	run_exe_list(exe_list, envp_list, fd_in, fd_out);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
