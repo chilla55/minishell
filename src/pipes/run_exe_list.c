@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   run_exe_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/06/07 22:03:44 by skorte           ###   ########.fr       */
+=======
+/*   Updated: 2022/06/07 12:20:48 by agrotzsc         ###   ########.fr       */
+>>>>>>> a315961a1f0e65985691e8810ab1fdcf02ae8930
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +37,7 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 {
 	int		fd_in;
 	int		fd_out;
-	char	*stdout_envp[2];
+	char	*stdout_envp[3];
 
 	if (!exe_list)
 		return (-1);

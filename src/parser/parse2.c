@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/06/07 22:05:31 by skorte           ###   ########.fr       */
+=======
+/*   Updated: 2022/06/07 12:20:39 by agrotzsc         ###   ########.fr       */
+>>>>>>> a315961a1f0e65985691e8810ab1fdcf02ae8930
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +254,8 @@ char	*ft_strinsertchar(char *str, char c, int pos)
 		free(str1);
 	if (str2)
 		free(str2);
+	if (str)
+		free(str);
 	return (dest);
 }
 
