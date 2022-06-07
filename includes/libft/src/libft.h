@@ -57,7 +57,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strjoin_frees1(char *s1, char const *s2);
 char	*ft_strjoin_frees2(char const *s1, char *s2);
 char	*ft_strjoin_free(char *s1, char *s2);
-char	*ft_strjoin_try_free(char *s1, char *s2);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));

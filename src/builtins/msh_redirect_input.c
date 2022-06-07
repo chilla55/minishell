@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_redirections.c                                 :+:      :+:    :+:   */
+/*   msh_redirect_input.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/07 00:14:56 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/07 15:17:13 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,56 +15,6 @@
 static char	*read_input(char *delimiter);
 static char	*append_line(char *input, char *line);
 static char	*insert_envp(char *input, t_envp_list *envp_list);
-
-// *** > (append = 0) and >> (append = 1) ***
-
-void	msh_redirect_to_file(char *path, int append)
-{
-	int		fd_file;
-	char	ch;
-
-	if (append)
-		fd_file = open(path, O_RDWR | O_CREAT | O_APPEND, 0644);
-	else
-		fd_file = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (fd_file == -1)
-	{
-		perror("open");
-		return ;
-	}
-	while (read(STDIN_FILENO, &ch, 1) > 0)
-	{
-		write(fd_file, &ch, 1);
-	}
-	close(fd_file);
-	return ;
-}
-
-// *** < (read from file)
-
-void	msh_read_from_file(char *path)
-{
-	int		fd_file;
-	char	ch;
-
-	fd_file = open(path, O_RDONLY);
-	if (fd_file == -1)
-	{
-		perror("open");
-		return ;
-	}
-	while (read(fd_file, &ch, 1) > 0)
-	{	
-		if (ch == '\n')
-		{
-			if (read(fd_file, &ch, 1) > 0)
-				write(STDOUT_FILENO, &"\n", 1);
-		}
-		write(STDOUT_FILENO, &ch, 1);
-	}
-	close(fd_file);
-	return ;
-}
 
 // *** << (read input till delimiter)
 
@@ -85,9 +35,10 @@ void	msh_read_input_till_delimiter(char *delimiter,
 	dup2(stdout_envp, STDOUT_FILENO);
 	input = read_input(delimiter);
 	input = insert_envp(input, envp_list);
+	write(1, input, ft_strlen(input));
 	dup2(stdout_backup, STDOUT_FILENO);
 	close(stdout_backup);
-	input = ft_strjoin_try_free(input, "\n");
+	input = ft_strjoin(input, "\n");
 	if (!silent)
 		write(STDOUT_FILENO, input, ft_strlen(input));
 	if (input)
@@ -139,7 +90,6 @@ static char	*insert_envp(char *input, t_envp_list *envp_list)
 	int		i;
 
 	envp = NULL;
-	temp = NULL;
 	i = 1;
 	if (!input)
 		return (NULL);
@@ -154,13 +104,15 @@ static char	*insert_envp(char *input, t_envp_list *envp_list)
 		while (ft_isalnum(ptr[i]))
 			i++;
 		envp = ft_substr(ptr, 1, i - 1);
-		input = ft_strjoin_free(input, msh_get_envp_value(envp_list, envp));
+		input = ft_strjoin(input, msh_get_envp_value(envp_list, envp));
 		free(envp);
 		if (ptr + i)
 		{
 			input = ft_strjoin_frees1(input, ptr + i);
 			free(temp);
 		}
+		write (1, input, ft_strlen(input));
+		i = 1;
 		ptr = ft_strchr(input, '$');
 	}
 	return (input);

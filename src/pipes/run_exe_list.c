@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/06 17:26:46 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/07 22:03:44 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 				int fd_in, int fd_out);
-static int	pipe_and_fork(int *fd_pipe);
+static int	pipe_and_fork(int *fd_pipe, int fd_in, int fd_out,
+				t_exe_list *exe_list);
 static int	fd_duplicator(int fd_in, int fd_out);
+static void	run_exe_extend(int fd_in, int fd_out,
+				t_exe_list *exe_list, t_envp_list *envp_list);
 
 /*
 * init_exe 
@@ -40,6 +43,8 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 	stdout_envp[1] = ft_strjoin_frees2("STDOUT_BACKUP=", ft_itoa(fd_out));
 	stdout_envp[2] = NULL;
 	msh_export(stdout_envp, envp_list);
+	free(stdout_envp[0]);
+	free(stdout_envp[1]);
 	run_exe_list(exe_list, envp_list, fd_in, fd_out);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
@@ -54,7 +59,7 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 * - extend function for run_exe_list.
 */
 
-void	run_exe_extend(int fd_in, int fd_out,
+static void	run_exe_extend(int fd_in, int fd_out,
 			t_exe_list *exe_list, t_envp_list *envp_list)
 {
 	fd_duplicator(fd_in, fd_out);
@@ -76,21 +81,13 @@ static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 
 	if (!exe_list)
 		return (0);
-	child_pid = pipe_and_fork(fd_pipe);
-	if (!exe_list->next)
-	{
-		close(fd_pipe[0]);
-		close(fd_pipe[1]);
-		if (child_pid == 0)
-			run_exe_extend(fd_in, fd_out, exe_list, envp_list);
-	}
+	child_pid = pipe_and_fork(fd_pipe, fd_in, fd_out, exe_list);
+	if (child_pid == 0)
+		run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
+	else if (exe_list->next)
+		run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
 	else
-	{
-		if (child_pid == 0)
-			run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
-		else
-			run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
-	}
+		close(fd_pipe[0]);
 	if (waitpid(child_pid, &status, 0) > -1)
 	{
 		if (status != 0 || !exe_list->next)
@@ -114,16 +111,22 @@ static int	fd_duplicator(int fd_in, int fd_out)
 }
 
 /*
-* initializes pipe
-* forks process
-* closes unused end of pipe for child and parent process
+* copies fd_in/fd_out to fd_pipe if no next command, inits pipe otherwise
+* forks process,
+* closes unused end of pipe for child and parent process,
 */
 
-static int	pipe_and_fork(int *fd_pipe)
+static int	pipe_and_fork(int *fd_pipe, int fd_in, int fd_out,
+				t_exe_list *exe_list)
 {
 	int	child_pid;
 
-	if (pipe(fd_pipe) == -1)
+	if (!exe_list->next)
+	{
+		fd_pipe[0] = dup(fd_in);
+		fd_pipe[1] = dup(fd_out);
+	}
+	else if (pipe(fd_pipe) == -1)
 		write(2, "Error: pipe failed\n", 19);
 	child_pid = fork();
 	if (child_pid == -1)

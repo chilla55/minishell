@@ -87,15 +87,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	dest[i + j] = '\0';
 	return (dest);
 }
-
-char	*ft_strjoin_try_free(char *s1, char *s2)
-{
-	char	*ret;
-
-	ret = ft_strjoin(s1, s2);
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	return (ret);
-}
