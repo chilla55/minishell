@@ -6,14 +6,12 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/08 16:02:47 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/08 20:52:26 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
-				int fd_in, int fd_out);
 static int	pipe_and_fork(int *fd_pipe, int fd_in, int fd_out,
 				t_exe_list *exe_list);
 static int	fd_duplicator(int fd_in, int fd_out);
@@ -72,7 +70,7 @@ static void	run_exe_extend(int fd_in, int fd_out,
 * - pipes the output of one command to the input of the next.
 */
 
-static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
+int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	int fd_in, int fd_out)
 {
 	int		fd_pipe[2];
@@ -81,11 +79,7 @@ static int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 
 	if (!exe_list)
 		return (0);
-	if (!ft_strncmp(exe_list->command, "export", 7))
-		msh_export(exe_list->argv, envp_list);
-	else if (!ft_strncmp(exe_list->command, "unset", 6))
-		msh_unset(exe_list->argv, envp_list);
-	else
+	if (!run_export(exe_list, envp_list, fd_in, fd_out))
 	{		
 		child_pid = pipe_and_fork(fd_pipe, fd_in, fd_out, exe_list);
 		if (child_pid == 0)
