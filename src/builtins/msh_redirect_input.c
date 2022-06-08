@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/07 15:17:13 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/08 14:57:18 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,16 @@ void	msh_read_input_till_delimiter(char *delimiter,
 	stdout_envp = ft_atoi(msh_get_envp_value(envp_list, "STDOUT_BACKUP"));
 	dup2(stdout_envp, STDOUT_FILENO);
 	input = read_input(delimiter);
-	input = insert_envp(input, envp_list);
-	write(1, input, ft_strlen(input));
 	dup2(stdout_backup, STDOUT_FILENO);
 	close(stdout_backup);
-	input = ft_strjoin(input, "\n");
-	if (!silent)
-		write(STDOUT_FILENO, input, ft_strlen(input));
 	if (input)
+	{
+		input = insert_envp(input, envp_list);
+		input = ft_strjoin(input, "\n");
+		if (!silent)
+			write(STDOUT_FILENO, input, ft_strlen(input));
 		free(input);
+	}
 	return ;
 }
 
@@ -63,6 +64,7 @@ static char	*read_input(char *delimiter)
 	}
 	if (line)
 		free (line);
+	printf("%s\n", input);
 	return (input);
 }
 
@@ -111,7 +113,6 @@ static char	*insert_envp(char *input, t_envp_list *envp_list)
 			input = ft_strjoin_frees1(input, ptr + i);
 			free(temp);
 		}
-		write (1, input, ft_strlen(input));
 		i = 1;
 		ptr = ft_strchr(input, '$');
 	}

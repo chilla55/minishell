@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/07 22:12:05 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/08 14:43:52 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 
 	i = 0;
 	temp = ft_insert_pipes(input);
+	printf("%s\n", temp);
 	input_split = ft_split_parse(temp, '|');
 	free(temp);
 	ft_sort_redirections(input_split);
@@ -166,7 +167,10 @@ char	*ft_insert_pipes(char *input)
 		i++;
 		temp = ft_strinsertchar(temp, 's', i);
 		i++;
-		temp = ft_strinsertchar(temp, '|', i);
+		while (temp[i] == ' ')
+			i++;
+		if (temp[i])
+			temp = ft_strinsertchar(temp, '|', i);
 	}
 	else if (temp[0] == '<' || temp[0] == '>')
 		temp = ft_strjoin_frees2("echo -n \"\" ", temp);
@@ -192,7 +196,8 @@ char	*ft_insert_pipes(char *input)
 			i = ft_find_word_end(temp, i);
 			while (temp[i] == ' ')
 				i++;
-			temp = ft_strinsertchar(temp, '|', i);
+			if (temp[i])
+				temp = ft_strinsertchar(temp, '|', i);
 		}
 		else if ((temp[i] == '<' || temp[i] == '>') && !sq && !dq)
 		{
@@ -203,7 +208,10 @@ char	*ft_insert_pipes(char *input)
 			i = i + 2;
 			temp = ft_strinsertchar(temp, ' ', i);
 			i = ft_find_word_end(temp, i);
-			temp = ft_strinsertchar(temp, '|', i);
+			while (temp[i] == ' ')
+				i++;
+			if (temp[i])
+				temp = ft_strinsertchar(temp, '|', i);
 		}
 		i++;
 	}
