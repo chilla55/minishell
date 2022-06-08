@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/06 17:27:13 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/08 14:45:13 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,13 @@ void		init_signal(void);
 
 // pipes/run_exe_list.c
 int			init_exe(t_exe_list *exe_list, t_envp_list *envp_list);
+int			run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
+				int fd_in, int fd_out);
 
 // pipes/run_command.c
 int			run_command(t_exe_list *exe_list_element, t_envp_list *envp_list);
+int			run_export(t_exe_list *exe_list, t_envp_list *envp_list,
+				int fd_in, int fd_out);
 
 // utils/msh_free.c
 void		free_paths(char **paths);

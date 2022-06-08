@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/31 23:01:58 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/08 14:45:56 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,24 @@ static int	try_build_in(char *word, char **words, t_envp_list *envp_list)
 	else
 		return (0);
 	exit (0);
+}
+
+int	run_export(t_exe_list *exe_list, t_envp_list *envp_list,
+	int fd_in, int fd_out)
+{
+	if (!ft_strncmp(exe_list->command, "export", 7) && !exe_list->next)
+	{
+		msh_export(exe_list->argv, envp_list);
+		if (exe_list->next)
+			run_exe_list(exe_list->next, envp_list, fd_in, fd_out);
+		return (1);
+	}	
+	else if (!ft_strncmp(exe_list->command, "unset", 6) && !exe_list->next)
+	{
+		msh_unset(exe_list->argv, envp_list);
+		if (exe_list->next)
+			run_exe_list(exe_list->next, envp_list, fd_in, fd_out);
+		return (1);
+	}	
+	return (0);
 }
