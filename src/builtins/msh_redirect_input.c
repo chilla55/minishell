@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/08 14:57:18 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/08 15:49:11 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	*read_input(char *delimiter);
 static char	*append_line(char *input, char *line);
 static char	*insert_envp(char *input, t_envp_list *envp_list);
+static char	*insert_envp_2(char *input, char *ptr, t_envp_list *envp_list);
 
 // *** << (read input till delimiter)
 
@@ -64,7 +65,6 @@ static char	*read_input(char *delimiter)
 	}
 	if (line)
 		free (line);
-	printf("%s\n", input);
 	return (input);
 }
 
@@ -87,34 +87,41 @@ static char	*append_line(char *input, char *line)
 static char	*insert_envp(char *input, t_envp_list *envp_list)
 {
 	char	*ptr;
-	char	*envp;
-	char	*temp;
-	int		i;
 
-	envp = NULL;
-	i = 1;
 	if (!input)
 		return (NULL);
-	temp = ft_strdup(input);
-	ptr = ft_strchr(temp, '$');
+	ptr = ft_strchr(input, '$');
 	if (!ptr)
-		return (temp);
+		return (input);
 	while (ptr)
 	{
-		free (input);
-		input = ft_substr(temp, 0, ft_strlen(temp) - ft_strlen(ptr));
-		while (ft_isalnum(ptr[i]))
-			i++;
-		envp = ft_substr(ptr, 1, i - 1);
-		input = ft_strjoin(input, msh_get_envp_value(envp_list, envp));
-		free(envp);
-		if (ptr + i)
-		{
-			input = ft_strjoin_frees1(input, ptr + i);
-			free(temp);
-		}
-		i = 1;
+		input = insert_envp_2(input, ptr, envp_list);
 		ptr = ft_strchr(input, '$');
 	}
 	return (input);
+}
+
+static char	*insert_envp_2(char *input, char *ptr, t_envp_list *envp_list)
+{
+	char	*temp;
+	char	*temp_2;
+	char	*envp;
+	char	*output;
+	int		i;
+
+	i = 1;
+	while (ft_isalnum(ptr[i]))
+		i++;
+	envp = ft_substr(ptr, 1, i - 1);
+	temp = ft_substr(input, 0, ft_strlen(input) - ft_strlen(ptr));
+	temp_2 = msh_get_envp_value(envp_list, envp);
+	output = ft_strjoin_3(temp, temp_2, ptr + i);
+	if (envp)
+		free(envp);
+	if (temp)
+		free(temp);
+	if (temp_2)
+		free(temp_2);
+	free(input);
+	return (output);
 }
