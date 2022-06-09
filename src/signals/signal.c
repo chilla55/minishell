@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 15:02:39 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/04/29 09:05:56 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:18:09 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 void	inthandler(int _)
 {
-	char	*prompt;
-
 	(void)_;
-	ft_putstr_fd("\nTry me!:", 1);
-	prompt = getcwd(NULL, 0);
-	ft_putstr_fd(prompt, 1);
-	free(prompt);
-	ft_putstr_fd("$ ", 1);
+	write(1,&"\n",1);
+	rl_replace_line("",0);
+	rl_on_new_line();
+	rl_redisplay();
 	init_signal();
 }
 
