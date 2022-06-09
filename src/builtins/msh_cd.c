@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:10:16 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/04/29 08:48:20 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:56:19 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@ void	msh_cd(char **argv)
 {
 	if (!argv[1])
 		return ;
-	chdir(argv[1]);
+	if (chdir(argv[1]) == -1)
+		perror("Error");
 }
