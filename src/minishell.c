@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/09 13:28:12 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:02:30 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ void	loop(char *input, char *prompt, t_envp_list *envp_list)
 		else
 		{
 			add_history (temp);
+			if (input)
+				free(input);
 			input = ft_strdelendchr(temp, ' ');
 			free (temp);
 			if (ft_strncmp(input, "exit", 5) == 0)
 				break ;
 			msh_parser(input, envp_list);
-			free(input);
 		}
 	}
 	msh_free(input, envp_list);
