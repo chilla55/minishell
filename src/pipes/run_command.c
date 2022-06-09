@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/09 13:51:58 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:10:06 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,24 @@ static int	execve_extern(char *command, char **argv, char **envp,
 	int		i;
 	char	**paths;
 	char	*path;
-	char	*pwd;
 
 	execve(command, argv, envp);
-	pwd = msh_pwd();
-	path = ft_strjoin_3(pwd, "/", command);
-	free(pwd);
+	path = ft_strjoin_frees1(msh_pwd(), "/");
+	path = ft_strjoin_frees1(path, command);
 	execve(path, argv, envp);
 	free(path);
 	paths = ft_split(msh_get_envp_value(envp_list, "PATH"), ':');
 	i = 0;
-	while (paths[i])
+	if (paths)
 	{
-		path = ft_strjoin_3(paths[i], "/", command);
-		if (execve(path, argv, envp) != -1)
-			break ;
-		free(path);
-		i++;
+		while (paths[i])
+		{
+			path = ft_strjoin_3(paths[i], "/", command);
+			if (execve(path, argv, envp) != -1)
+				break ;
+			free(path);
+			i++;
+		}
 	}
 	write(2, &"Error: Command not found\n", 25);
 	free_paths(paths);
