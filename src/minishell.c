@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/21 18:21:38 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/09 13:28:12 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	init_signal();
 	envp_list = msh_create_envp_list(envp);
 	msh_set_envp(envp_list, "SHELL", "minishell", 1);
+	msh_set_envp(envp_list, "?", "0", 1);
 	loop(input, prompt, envp_list);
 	clear_history();
 	return (0);

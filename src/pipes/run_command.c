@@ -6,13 +6,14 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/08 14:45:56 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:51:58 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	execve_extern(char *command, char **argv, char **envp);
+static int	execve_extern(char *command, char **argv, char **envp,
+				t_envp_list *envp_list);
 static int	try_build_in(char *word, char **words, t_envp_list *envp_list);
 
 int	run_command(t_exe_list *exe_list_element, t_envp_list *envp_list)
@@ -20,7 +21,8 @@ int	run_command(t_exe_list *exe_list_element, t_envp_list *envp_list)
 	if (!try_build_in(exe_list_element->command,
 			exe_list_element->argv, envp_list))
 		execve_extern(exe_list_element->command,
-			exe_list_element->argv, msh_create_envp_from_list(envp_list));
+			exe_list_element->argv, msh_create_envp_from_list(envp_list),
+			envp_list);
 	return (0);
 }
 
@@ -29,7 +31,8 @@ int	run_command(t_exe_list *exe_list_element, t_envp_list *envp_list)
 ** and tries to execute it.
 */
 
-static int	execve_extern(char *command, char **argv, char **envp)
+static int	execve_extern(char *command, char **argv, char **envp,
+				t_envp_list *envp_list)
 {
 	int		i;
 	char	**paths;
@@ -42,7 +45,7 @@ static int	execve_extern(char *command, char **argv, char **envp)
 	free(pwd);
 	execve(path, argv, envp);
 	free(path);
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(msh_get_envp_value(envp_list, "PATH"), ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -97,6 +100,13 @@ int	run_export(t_exe_list *exe_list, t_envp_list *envp_list,
 	else if (!ft_strncmp(exe_list->command, "unset", 6) && !exe_list->next)
 	{
 		msh_unset(exe_list->argv, envp_list);
+		if (exe_list->next)
+			run_exe_list(exe_list->next, envp_list, fd_in, fd_out);
+		return (1);
+	}	
+	else if (!ft_strncmp(exe_list->command, "cd", 6) && !exe_list->next)
+	{
+		msh_cd(exe_list->argv);
 		if (exe_list->next)
 			run_exe_list(exe_list->next, envp_list, fd_in, fd_out);
 		return (1);

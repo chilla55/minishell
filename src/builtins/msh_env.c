@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:54:40 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/05/19 10:30:14 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:34:32 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	msh_env(char **words, t_envp_list *envp_list)
 	t_exe_list	*entry;
 
 	if (!words[1])
+	{
+		msh_print_envp_list(envp_list);
 		return ;
+	}
 	new_envp_l = msh_copy_envp_list(envp_list);
 	entry = ft_calloc(1, sizeof(t_exe_list));
 	entry->argv = ft_calloc(2, sizeof(char *));
