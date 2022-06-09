@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/09 15:11:59 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/09 16:35:09 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ int			msh_parser(char *input, t_envp_list *envp_list);
 char		**ft_split_parse(char const *s, char c);
 
 // parser/parse_3_redirections.c
-char	*ft_insert_pipes(char *input);
-void	ft_sort_redirections(char **split);
+char		*ft_insert_pipes(char *input);
+void		ft_sort_redirections(char **split);
 
 // env/envp_create.c
 t_envp_list	*msh_create_envp_list(char **envp);

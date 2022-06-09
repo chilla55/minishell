@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/09 16:02:30 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/09 16:34:07 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ void	loop(char *input, char *prompt, t_envp_list *envp_list)
 		free(prompt);
 		if (!temp)
 			break ;
-		else if (!ft_strlen(temp))
-			NULL ;
-		else
+		else if (ft_strlen(temp))
 		{
 			add_history (temp);
 			if (input)
