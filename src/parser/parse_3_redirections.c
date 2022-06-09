@@ -6,12 +6,13 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/09 14:44:37 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/09 15:33:05 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static char	*insert_here(char *temp, int *i_0);
 static char	*ft_strinsertchar(char *str, char c, int pos);
 static int	ft_find_word_end(char *temp, int i);
 
@@ -26,64 +27,45 @@ char	*ft_insert_pipes(char *input)
 	dq = 0;
 	i = 0;
 	temp = ft_strdup(input);
-	if (!ft_strncmp(temp, "<<", 2))
-	{
-		i = i + 2;
-		temp = ft_strinsertchar(temp, ' ', i);
-		i = ft_find_word_end(temp, i);
-		temp = ft_strinsertchar(temp, ' ', i);
-		i++;
-		temp = ft_strinsertchar(temp, 's', i);
-		i++;
-		while (temp[i] == ' ')
-			i++;
-		if (temp[i])
-			temp = ft_strinsertchar(temp, '|', i);
-	}
-	else if (temp[0] == '<' || temp[0] == '>')
+	if (temp[0] == '<' || temp[0] == '>')
 		temp = ft_strjoin_frees2("echo -n \"\" ", temp);
-	else if (temp[0] == '\'' && !dq)
-		sq = (sq + 1) % 2;
-	else if (temp[0] == '\"' && !sq)
-		dq = (dq + 1) % 2;
 	while (temp[i])
 	{
 		if (temp[i] == '\'' && !dq)
 			sq = (sq + 1) % 2;
 		else if (temp[i] == '\"' && !sq)
 			dq = (dq + 1) % 2;
-		else if ((temp[i] == '<' && temp[i + 1] == '<' && !sq && !dq)
-			|| (temp[i] == '>' && temp[i + 1] == '>' && !sq && !dq))
-		{
-			if (temp[i - 1] == '|')
-				i--;
-			else
-				temp = ft_strinsertchar(temp, '|', i);
-			i = i + 3;
-			temp = ft_strinsertchar(temp, ' ', i);
-			i = ft_find_word_end(temp, i);
-			while (temp[i] == ' ')
-				i++;
-			if (temp[i])
-				temp = ft_strinsertchar(temp, '|', i);
-		}
 		else if ((temp[i] == '<' || temp[i] == '>') && !sq && !dq)
-		{
-			if (temp[i - 1] == '|')
-				i--;
-			else
-				temp = ft_strinsertchar(temp, '|', i);
-			i = i + 2;
-			temp = ft_strinsertchar(temp, ' ', i);
-			i = ft_find_word_end(temp, i);
-			while (temp[i] == ' ')
-				i++;
-			if (temp[i])
-				temp = ft_strinsertchar(temp, '|', i);
-		}
+			temp = insert_here(temp, &i);
 		if (temp[i])
 			i++;
 	}
+	printf("%s\n", temp);
+	return (temp);
+}
+
+char	*insert_here(char *temp, int *i_0)
+{
+	int	i;
+
+	i = *i_0;
+	if (i > 0)
+	{
+		if (temp[i - 1] == '|')
+			i--;
+		else
+			temp = ft_strinsertchar(temp, '|', i);
+	}
+	if (temp[i + 2] == temp[i + 1])
+		i++;
+	i = i + 2;
+	temp = ft_strinsertchar(temp, ' ', i);
+	i = ft_find_word_end(temp, i);
+	while (temp[i] == ' ')
+		i++;
+	if (temp[i] && temp[i] != '|')
+		temp = ft_strinsertchar(temp, '|', i);
+	*i_0 = i;
 	return (temp);
 }
 
