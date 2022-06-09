@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/09 16:35:09 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/10 00:13:19 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void		msh_env(char **words, t_envp_list *envp_list);
 void		msh_redirect_to_file(char *path, int append);
 void		msh_read_from_file(char *path);
 void		msh_read_input_till_delimiter(char *delimiter,
-				char *silent, t_envp_list *envp_list);
+				t_envp_list *envp_list);
 
 // signals/signal.c
 void		init_signal(void);
