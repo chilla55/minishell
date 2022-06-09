@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 15:02:39 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/09 14:18:09 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:37:54 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	inthandler(int _)
 {
 	(void)_;
-	write(1,&"\n",1);
-	rl_replace_line("",0);
+	write(1, &"\n", 1);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	init_signal();
