@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/09 15:35:14 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/09 15:53:11 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 static char	*insert_here(char *temp, int *i_0);
 static char	*ft_strinsertchar(char *str, char c, int pos);
 static int	ft_find_word_end(char *temp, int i);
+
+/*
+** insert_pipes takes the input, searches for redirections and inserts pipes.
+** The redirections are then executed like built-in functions
+** in their own child processes.
+**
+** If a pipe is the first element of the input, echo -n "" is put in front.
+** This is necessary to give the redirection an empty source/silent drain.
+**
+** When searching the input for < or >, quotes have to be interpreted.
+** If an unquoted < or > is found, insert_here is started to change the
+** input string as needed.
+*/
 
 char	*ft_insert_pipes(char *input)
 {
@@ -43,6 +56,22 @@ char	*ft_insert_pipes(char *input)
 	return (temp);
 }
 
+/*
+** insert_here takes a string and the address of the index where
+** in this string a redirection is found.
+**
+** It first checks if there has already been inserted a pipe '|' in front,
+** and adds it if missing.
+**
+** If no space is between redirection and argument, it is inserted.
+**
+** The end of the argument word is located, and
+** where necessary, a pipe '|' is inserted.
+**
+** The index is updated to the end of the current redirection,
+** and the string is returned.
+*/
+
 char	*insert_here(char *temp, int *i_0)
 {
 	int	i;
@@ -68,6 +97,14 @@ char	*insert_here(char *temp, int *i_0)
 	return (temp);
 }
 
+/*
+** sort_redirections takes the split input and switches every input redirection
+** with the command in front of it.
+**
+** So, the output of the built-in redirection command will be piped
+** into the input of the appropriate command.
+*/
+
 void	ft_sort_redirections(char **split)
 {
 	int		i;
@@ -85,6 +122,13 @@ void	ft_sort_redirections(char **split)
 		i++;
 	}
 }
+
+/*
+** Inserts char 'c' at position pos into string str.
+**
+** Frees the original string str. Allocates memory for the return string.
+** So str = ft_strinsertchar(str, c, i) does not cause memory leaks.
+*/
 
 static char	*ft_strinsertchar(char *str, char c, int pos)
 {
@@ -112,6 +156,10 @@ static char	*ft_strinsertchar(char *str, char c, int pos)
 		free(str);
 	return (dest);
 }
+
+/*
+** Returns the index of the next word in string temp following index i.
+*/
 
 static int	ft_find_word_end(char *temp, int i)
 {
