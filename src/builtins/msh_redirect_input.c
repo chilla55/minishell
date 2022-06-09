@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/08 21:50:36 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/10 00:15:37 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static char	*insert_envp_2(char *input, char *ptr, t_envp_list *envp_list);
 
 // *** << (read input till delimiter)
 
-void	msh_read_input_till_delimiter(char *delimiter,
-			char *silent, t_envp_list *envp_list)
+void	msh_read_input_till_delimiter(char *delimiter, t_envp_list *envp_list)
 {
 	char	*input;
 	int		stdout_envp;
@@ -41,8 +40,7 @@ void	msh_read_input_till_delimiter(char *delimiter,
 	{
 		input = insert_envp(input, envp_list);
 		input = ft_strjoin_frees1(input, "\n");
-		if (!silent)
-			write(STDOUT_FILENO, input, ft_strlen(input));
+		write(STDOUT_FILENO, input, ft_strlen(input));
 		free(input);
 	}
 	return ;
