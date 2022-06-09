@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/08 22:45:22 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/09 11:32:05 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	word_parse(char *input, char **words, int inlen, t_envp_list *envp_list)
 		else if (input[i[0]] == '\"')
 			words[i[1]] = join_try_free(words[i[1]],
 					dquote_parse(input, i, envp_list));
-		else if (input[i[0]] == '$')
+		else if (input[i[0]] == '$' && ft_strncmp(input, "<<", 2))
 			words[i[1]] = join_try_free(words[i[1]],
 					env_parse(input, i, envp_list));
 		else if (input[i[0]] != ' ')
