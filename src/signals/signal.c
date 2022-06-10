@@ -3,54 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 15:02:39 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/10 00:29:50 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/10 18:09:13 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	handler_sigquit(struct readline_state *sp)
+static void	handler_sigquit(int sig)
 {
-	if (sp->end)
+	if (sig == SIGQUIT)
 	{
 		write(1, &"QUIT\n", 5);
 		rl_replace_line("exit", 0);
-		rl_done = 1;
 	}
-	else
-		write(1, "\b\b  \b\b", 6);
 }
 
-static void	handler_sigint(void)
+static void	handler_sigint_inter(int sig)
 {
-	if (!rl_done)
+	if (sig == SIGINT)
 	{
-		rl_replace_line("", 0);
-		rl_done = 1;
-	}
-	else
 		write(1, &"\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-static void	inthandler(int sig)
+static void	handler_sigint_active(int sig)
 {
-	struct readline_state	*sp;
-
-	sp = malloc(sizeof(struct readline_state));
-	rl_save_state(sp);
-	if (sig == SIGQUIT)
-		handler_sigquit(sp);
-	else if (sig == SIGINT)
-		handler_sigint();
-	init_signal();
-}
-
-int	event(void)
-{
-	return (0);
+	if (sig == SIGINT)
+	{
+		write(1, &"\n", 1);
+		rl_replace_line("", 0);
+	}
 }
 
 /*
@@ -59,13 +47,20 @@ int	event(void)
 ** ctrl+D = EOF (NOT A SIGNAL!)
 */
 
-void	init_signal(void)
+void	signal_active(void)
 {
-	struct sigaction	act;
+	signal(SIGINT, &handler_sigint_active);
+	signal(SIGQUIT, &handler_sigquit);
+}
 
-	memset(&act, 0, sizeof(act));
-	act.sa_handler = inthandler;
-	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
-	rl_event_hook = event;
+void	signal_inter(void)
+{
+	signal(SIGINT, &handler_sigint_inter);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	signal_child(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

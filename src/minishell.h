@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/10 00:13:19 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/10 18:08:08 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
+// printf
 # include <readline/readline.h>
 # include <readline/history.h>
 // readline, rl_clear_history, rl_on_new_line,
 // rl_replace_line, rl_redisplay, add_history
-# include <stdio.h>
-// printf
 # include <stdlib.h>
 // malloc, free, exit
 // getenv (get an environment variable)
@@ -178,6 +178,8 @@ void		msh_read_input_till_delimiter(char *delimiter,
 
 // signals/signal.c
 void		init_signal(void);
+void		signal_inter(void);
+void		signal_active(void);
 
 // pipes/run_exe_list.c
 int			init_exe(t_exe_list *exe_list, t_envp_list *envp_list);

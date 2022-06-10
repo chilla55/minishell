@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exe_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/08 20:53:50 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/10 18:06:39 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 
 	if (!exe_list)
 		return (-1);
+	signal_active();
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	stdout_envp[0] = ft_strdup("export");
@@ -49,6 +50,7 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 	close(fd_in);
 	close(fd_out);
 	free_exe_list(exe_list);
+	signal_inter();
 	return (0);
 }
 
