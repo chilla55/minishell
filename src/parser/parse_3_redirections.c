@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/09 15:53:11 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/12 16:46:31 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	ft_sort_redirections(char **split)
 	char	*temp;
 
 	i = 1;
+	if (!split[0])
+		return ;
 	while (split[i])
 	{
 		if (split[i][0] == '<')
@@ -121,6 +123,7 @@ void	ft_sort_redirections(char **split)
 		}
 		i++;
 	}
+	return ;
 }
 
 /*

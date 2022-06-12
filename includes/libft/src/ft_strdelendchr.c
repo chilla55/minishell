@@ -26,8 +26,16 @@ char	*ft_strdelendchr(const char *s, int c)
 	if (!s)
 		return (NULL);
 	len = ft_strlen(s);
-	while (s[len - 1] == c)
-		len--;
+	if (len >= 1)
+	{
+		while (s[len - 1] == c && len > 1)
+			len--;
+	}
+	if (len == 1)
+	{
+		if (s[0] == c)
+			len--;
+	}
 	rtn = malloc (sizeof(char) * (len + 1));
 	ft_strlcpy(rtn, s, len + 1);
 	return (rtn);
