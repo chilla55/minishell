@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 15:02:39 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/10 18:09:13 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/12 09:09:46 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,4 @@ void	signal_inter(void)
 {
 	signal(SIGINT, &handler_sigint_inter);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	signal_child(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 }
