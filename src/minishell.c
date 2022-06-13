@@ -6,13 +6,13 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/12 15:12:42 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/13 10:30:41 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_free(char *input, t_envp_list *envp_list);
+void	msh_free(char *input, t_envp_list *envp_list, char *temp);
 void	loop(char *input, char *prompt, t_envp_list *envp_list);
 void	msh_free_envp_list(t_envp_list *envp_list);
 
@@ -62,15 +62,17 @@ void	loop(char *input, char *prompt, t_envp_list *envp_list)
 		if (temp)
 			free (temp);
 	}
-	msh_free(input, envp_list);
+	msh_free(input, envp_list, temp);
 }
 
-void	msh_free(char *input, t_envp_list *envp_list)
+void	msh_free(char *input, t_envp_list *envp_list, char *temp)
 {
 	if (input)
 		free(input);
 	if (envp_list)
 		msh_free_envp_list(envp_list);
+	if (temp)
+		free (temp);
 }
 
 void	msh_free_envp_list(t_envp_list *envp_list)
