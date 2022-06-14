@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_redirect_input.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 22:28:28 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/14 20:48:21 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static char	*insert_envp_2(char *input, char *ptr, t_envp_list *envp_list)
 	while (ft_isalnum(ptr[i]))
 		i++;
 	envp = ft_substr(ptr, 1, i - 1);
-	temp_2 = msh_get_envp_value(envp_list, envp);
+	temp_2 = ft_strdup(msh_get_envp_value(envp_list, envp));
 	if (temp_2)
 		output = ft_strjoin_3(temp, temp_2, ptr + i);
 	else
