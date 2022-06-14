@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exe_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 19:51:41 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/14 20:34:09 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	pid_t	child_pid;
 	int		status;
 
-	if (run_export(exe_list, envp_list, fd_in, fd_out))
+	if (run_export(exe_list, envp_list))
 		return (0);
 	child_pid = pipe_and_fork(fd_pipe, fd_in, fd_out, exe_list);
 	if (child_pid == 0)
