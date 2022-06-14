@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 10:16:11 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 19:43:00 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/14 21:20:28 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	msh_free(char *input, t_envp_list *envp_list, char *temp);
 void	loop(char *input, char *prompt, t_envp_list *envp_list);
 void	msh_free_envp_list(t_envp_list *envp_list);
+char	*create_prompt(t_envp_list *envp_list);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -41,9 +42,7 @@ void	loop(char *input, char *prompt, t_envp_list *envp_list)
 
 	while (1)
 	{
-		temp = getcwd(NULL, 0);
-		prompt = ft_strjoin_3("Try me!:", temp, "$ ");
-		free(temp);
+		prompt = create_prompt(envp_list);
 		temp = readline(prompt);
 		free(prompt);
 		if (!temp)
@@ -86,4 +85,31 @@ void	msh_free_envp_list(t_envp_list *envp_list)
 			msh_free_envp_list(envp_list->next);
 		free (envp_list);
 	}
+}
+
+char	*create_prompt(t_envp_list *envp_list)
+{
+	char	*prompt;
+	char	*cwd;
+	char	*user;
+	char	*shell;
+
+	user = ft_strdup(msh_get_envp_value(envp_list, "USER"));
+	shell = ft_strdup(msh_get_envp_value(envp_list, "SHELL"));
+	cwd = getcwd(NULL, 0);
+	if (!user)
+		prompt = ft_strdup("@");
+	else
+		prompt = ft_strjoin(user, "@");
+	prompt = ft_strjoin_frees1(prompt, shell);
+	prompt = ft_strjoin_frees1(prompt, ":");
+	prompt = ft_strjoin_frees1(prompt, cwd);
+	prompt = ft_strjoin_frees1(prompt, "$ ");
+	if (user)
+		free(user);
+	if (shell)
+		free(shell);
+	if (cwd)
+		free(cwd);
+	return (prompt);
 }

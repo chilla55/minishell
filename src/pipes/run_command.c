@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 20:25:11 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/14 21:29:42 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static int	execve_extern(char *command, char **argv, char **envp,
 	char	*path;
 
 	execve(command, argv, envp);
-	path = ft_strjoin_frees1(msh_pwd(), "/");
-	path = ft_strjoin_frees1(path, command);
+	path = ft_strjoin_free(msh_pwd(), ft_strjoin("/", command));
 	execve(path, argv, envp);
 	free(path);
 	paths = ft_split(msh_get_envp_value(envp_list, "PATH"), ':');
