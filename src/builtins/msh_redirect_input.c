@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/10 00:15:37 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/14 22:28:28 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ static char	*read_input(char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
+		if (!line)
+		{
+			write(2, "\n> warning: here-document delimited by end-of-file\n", 51);
+			break ;
+		}
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 			break ;
 		input = append_line(input, line);
