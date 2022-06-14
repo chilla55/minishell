@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/09 15:12:51 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/14 14:41:14 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 
 void	word_parse_2(char *input, int *i)
 {
-	if (input[i[0]] == ' ' && input[i[0] + 1] != ' ')
+	if (input[i[0]] == '\0')
+		return ;
+	else if (input[i[0]] == ' ' && input[i[0] + 1] != ' ')
 		i[3] = i[0] + 1;
 	else if (input[i[0]] != ' ' && (input[i[0] + 1] == ' '
 			|| !input[i[0] + 1]) && i[0] != i[3])
