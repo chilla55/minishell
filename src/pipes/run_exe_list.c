@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/10 18:06:39 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/14 14:21:15 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,10 @@ int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	{		
 		child_pid = pipe_and_fork(fd_pipe, fd_in, fd_out, exe_list);
 		if (child_pid == 0)
+		{
+			signal_child();
 			run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
+		}
 		else if (exe_list->next)
 			run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
 		else

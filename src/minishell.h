@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/10 18:08:08 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/14 14:26:00 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,13 @@ void		msh_read_from_file(char *path);
 void		msh_read_input_till_delimiter(char *delimiter,
 				t_envp_list *envp_list);
 
+// signals/signal_handler.c
+void		handler_sigquit(int sig);
+void		handler_sigint_inter(int sig);
+void		handler_sigint_active(int sig);
+
 // signals/signal.c
-void		init_signal(void);
+void		signal_child(void);
 void		signal_inter(void);
 void		signal_active(void);
 
