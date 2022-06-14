@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exe_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 14:21:15 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:51:41 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	run_exe_extend(int fd_in, int fd_out,
 
 int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 {
+	int		exit;
 	int		fd_in;
 	int		fd_out;
 	char	*stdout_envp[3];
@@ -44,14 +45,14 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 	msh_export(stdout_envp, envp_list);
 	free(stdout_envp[0]);
 	free(stdout_envp[1]);
-	run_exe_list(exe_list, envp_list, fd_in, fd_out);
+	exit = run_exe_list(exe_list, envp_list, fd_in, fd_out);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_in);
 	close(fd_out);
 	free_exe_list(exe_list);
 	signal_inter();
-	return (0);
+	return (exit);
 }
 
 /*
@@ -75,31 +76,31 @@ static void	run_exe_extend(int fd_in, int fd_out,
 int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	int fd_in, int fd_out)
 {
+	int		exit;
 	int		fd_pipe[2];
 	pid_t	child_pid;
 	int		status;
 
-	if (!exe_list)
+	if (run_export(exe_list, envp_list, fd_in, fd_out))
 		return (0);
-	if (!run_export(exe_list, envp_list, fd_in, fd_out))
-	{		
-		child_pid = pipe_and_fork(fd_pipe, fd_in, fd_out, exe_list);
-		if (child_pid == 0)
-		{
-			signal_child();
-			run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
-		}
-		else if (exe_list->next)
-			run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
-		else
-			close(fd_pipe[0]);
-		if (waitpid(child_pid, &status, 0) > -1)
-		{
-			if (status != 0 || !exe_list->next)
-				msh_set_envp_free_value(envp_list, "?", ft_itoa(status), 1);
-		}
-	}	
-	return (0);
+	child_pid = pipe_and_fork(fd_pipe, fd_in, fd_out, exe_list);
+	if (child_pid == 0)
+	{
+		signal_child();
+		run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
+		exit = 1;
+	}
+	else if (exe_list->next)
+		exit = run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
+	else
+	{
+		close(fd_pipe[0]);
+		exit = 0;
+	}
+	if (waitpid(child_pid, &status, 0) > -1)
+		if (status != 0 || !exe_list->next)
+			msh_set_envp_free_value(envp_list, "?", ft_itoa(status), 1);
+	return (exit);
 }
 
 /*

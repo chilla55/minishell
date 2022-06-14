@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/14 14:41:14 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:44:34 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 		i++;
 	}
 	free_split(input_split);
-	init_exe(exe_list, envp_list);
-	return (0);
+	return (init_exe(exe_list, envp_list));
 }
 
 void	word_parse_2(char *input, int *i)

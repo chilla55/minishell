@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/12 17:07:04 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/14 19:57:59 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,19 @@
 static int	execve_extern(char *command, char **argv, char **envp,
 				t_envp_list *envp_list);
 static int	try_build_in(char *word, char **words, t_envp_list *envp_list);
-static void	error_command_not_found(char **paths, char **envp,
-				t_envp_list *envp_list);
 
 int	run_command(t_exe_list *exe_list_element, t_envp_list *envp_list)
 {
+	char	**envp;
+
 	if (!try_build_in(exe_list_element->command,
 			exe_list_element->argv, envp_list))
-		execve_extern(exe_list_element->command,
-			exe_list_element->argv, msh_create_envp_from_list(envp_list),
-			envp_list);
+	{
+		envp = msh_create_envp_from_list(envp_list);
+		execve_extern(exe_list_element->command, exe_list_element->argv,
+			envp, envp_list);
+		free_split(envp);
+	}
 	return (0);
 }
 
@@ -58,8 +61,9 @@ static int	execve_extern(char *command, char **argv, char **envp,
 			i++;
 		}
 	}
-	error_command_not_found(paths, envp, envp_list);
-	exit (-1);
+	free_paths(paths);
+	write(2, &"Error: Command not found\n", 25);
+	return (-1);
 }
 
 static int	try_build_in(char *word, char **words, t_envp_list *envp_list)
@@ -86,12 +90,14 @@ static int	try_build_in(char *word, char **words, t_envp_list *envp_list)
 		msh_read_from_file(words[1]);
 	else
 		return (0);
-	exit (0);
+	return (1);
 }
 
 int	run_export(t_exe_list *exe_list, t_envp_list *envp_list,
 	int fd_in, int fd_out)
 {
+	if (!exe_list)
+		return (1);
 	if (!ft_strncmp(exe_list->command, "export", 7) && !exe_list->next)
 	{
 		msh_export(exe_list->argv, envp_list);
@@ -114,14 +120,4 @@ int	run_export(t_exe_list *exe_list, t_envp_list *envp_list,
 		return (1);
 	}	
 	return (0);
-}
-
-static void	error_command_not_found(char **paths, char **envp,
-				t_envp_list *envp_list)
-{
-	write(2, &"Error: Command not found\n", 25);
-	free_paths(paths);
-	msh_free_envp_list(envp_list);
-	free_split(envp);
-	return ;
 }
