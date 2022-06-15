@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 20:48:21 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/15 10:41:47 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ static char	*insert_envp(char *input, t_envp_list *envp_list)
 		ptr++;
 	while (ptr[0] && ptr[1])
 	{
-		printf("%s\n", ptr);
 		if (ptr[0] == '$')
 			input = insert_envp_2(input, ptr, envp_list);
 		ptr = input;
