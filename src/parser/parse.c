@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:44:00 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/08 14:24:55 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/15 19:16:35 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*dquote_parse(char *input, int *i, t_envp_list *envp_list)
 		if (input[a[1]] == '$')
 		{
 			tmp = join_try_free(tmp, ft_substr(input, a[0], a[1] - a[0]));
-			tmp = ft_strjoin_free(tmp,
+			tmp = join_try_free(tmp,
 					dqute_env_parse(input, &a[1], envp_list));
 			a[0] = a[1] + 1;
 		}
@@ -104,7 +104,7 @@ char	*dquote_parse(char *input, int *i, t_envp_list *envp_list)
 	i[0] = a[1];
 	i[3] = i[0] + 1;
 	if (tmp && a[0] != a[1])
-		return (ft_strjoin_free(tmp,
+		return (join_try_free(tmp,
 				ft_substr(input, a[0], a[1] - a[0])));
 	else if (tmp)
 		return (tmp);
