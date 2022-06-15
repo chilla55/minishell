@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 20:34:20 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/15 11:44:43 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,5 +198,6 @@ int			run_export(t_exe_list *exe_list, t_envp_list *envp_list);
 // utils/msh_free.c
 void		free_paths(char **paths);
 void		free_exe_list(t_exe_list *exe_list);
+void		free_str(char *str);
 
 #endif

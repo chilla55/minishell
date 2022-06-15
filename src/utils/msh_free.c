@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 20:48:32 by skorte            #+#    #+#             */
-/*   Updated: 2022/05/10 21:22:52 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/15 11:44:29 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ void	free_exe_list(t_exe_list *exe_list)
 	}
 	free(ptr->argv);
 	free(ptr);
+}
+
+void	free_str(char *str)
+{
+	if (str)
+		free(str);
 }

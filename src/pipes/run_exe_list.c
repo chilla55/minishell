@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 20:34:09 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/15 11:37:33 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	pipe_and_fork(int *fd_pipe, int fd_in, int fd_out,
 				t_exe_list *exe_list);
 static int	fd_duplicator(int fd_in, int fd_out);
-static void	run_exe_extend(int fd_in, int fd_out,
+static int	run_exe_extend(int fd_in, int fd_out,
 				t_exe_list *exe_list, t_envp_list *envp_list);
 
 /*
@@ -60,11 +60,11 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 * - extend function for run_exe_list.
 */
 
-static void	run_exe_extend(int fd_in, int fd_out,
+static int	run_exe_extend(int fd_in, int fd_out,
 			t_exe_list *exe_list, t_envp_list *envp_list)
 {
 	fd_duplicator(fd_in, fd_out);
-	run_command(exe_list, envp_list);
+	return (run_command(exe_list, envp_list));
 }
 
 /*
@@ -87,8 +87,7 @@ int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	if (child_pid == 0)
 	{
 		signal_child();
-		run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
-		exit = 1;
+		exit = run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
 	}
 	else if (exe_list->next)
 		exit = run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);

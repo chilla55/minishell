@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/14 20:33:42 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/15 11:37:58 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	run_command(t_exe_list *exe_list_element, t_envp_list *envp_list)
 		execve_extern(exe_list_element->command, exe_list_element->argv,
 			envp, envp_list);
 		free_split(envp);
+		return (2);
 	}
-	return (0);
+	return (1);
 }
 
 /*
