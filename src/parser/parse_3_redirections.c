@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/16 23:34:35 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/16 23:44:15 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ char	*ft_insert_pipes(char *input)
 	dq = 0;
 	i = 0;
 	temp = ft_strdup(input);
-	if (temp[0] == '<' || temp[0] == '>')
+	while (temp[i] == ' ')
+		i++;
+	if (temp[i] == '<' || temp[i] == '>')
 		temp = ft_strjoin_frees2("echo -n \"\" ", temp);
 	while (temp[i])
 	{
