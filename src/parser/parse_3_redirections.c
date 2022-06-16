@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/16 17:21:24 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/16 23:34:35 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ char	*insert_here(char *temp, int *i_0)
 		i++;
 	i = i + 2;
 	temp = ft_strinsertchar(temp, ' ', i);
+	*i_0 = i;
 	i = ft_find_word_end(temp, i);
 	while (temp[i] == ' ')
 		i++;
 	if (temp[i] && temp[i] != '|')
 		temp = ft_strinsertchar(temp, '|', i);
-	*i_0 = i;
 	return (temp);
 }
 
