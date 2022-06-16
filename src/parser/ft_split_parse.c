@@ -90,7 +90,7 @@ char	**ft_split_parse(char const *s, char c)
 	if (!s)
 		return (NULL);
 	n = ft_str_word_count(s, c);
-	dest = malloc((n + 1) * sizeof(char *));
+	dest = ft_calloc((n + 1), sizeof(char *));
 	if (dest == NULL)
 		return (dest);
 	ft_str_words(s, dest, c);

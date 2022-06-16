@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_3_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/12 16:46:31 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/16 09:03:34 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char	*insert_here(char *temp, int *i_0)
 void	ft_sort_redirections(char **split)
 {
 	int		i;
+	int		a;
 	char	*temp;
 
 	i = 1;
@@ -121,6 +122,18 @@ void	ft_sort_redirections(char **split)
 			split[i] = split[i - 1];
 			split[i - 1] = temp;
 		}
+		else if (split[i][0] == '>')
+		{
+			if (split[i - 1][0] != '>')
+			{
+				a = i;
+				while (split[i + 1] && split[i + 1][0] == '>')
+					i++;
+				temp = split[a];
+				split[a] = split[i];
+				split[i] = temp;
+			}
+		}	
 		i++;
 	}
 	return ;
