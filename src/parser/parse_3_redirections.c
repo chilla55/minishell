@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/16 23:44:15 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/17 00:43:21 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,11 @@ void	ft_sort_redirections(char **split)
 		if (split[i][0] == '<')
 		{
 			temp = split[i];
-			split[i] = split[i - 1];
-			split[i - 1] = temp;
+			a = i - 1;
+			while (a > 0 && split[a][0] == '>')
+				a--;
+			split[i] = split[a];
+			split[a] = temp;
 		}
 		else if (split[i][0] == '>' && split[i - 1][0] != '>')
 		{
