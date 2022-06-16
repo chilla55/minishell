@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/15 11:44:43 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/16 14:57:04 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ char		**ft_split_parse(char const *s, char c);
 // parser/parse_3_redirections.c
 char		*ft_insert_pipes(char *input);
 void		ft_sort_redirections(char **split);
+
+// parser/parser_4.c
+int			check_allowed(char *input);
 
 // env/envp_create.c
 t_envp_list	*msh_create_envp_list(char **envp);

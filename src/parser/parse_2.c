@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/14 19:44:34 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/16 15:01:27 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 
 	exe_list = NULL;
 	i = 0;
+	if (!check_allowed(input))
+		return (0);
 	temp = ft_insert_pipes(input);
 	input_split = ft_split_parse(temp, '|');
 	ft_sort_redirections(input_split);
