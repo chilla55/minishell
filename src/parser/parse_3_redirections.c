@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_3_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/16 09:03:34 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:21:24 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,7 @@ void	ft_sort_redirections(char **split)
 	char	*temp;
 
 	i = 1;
-	if (!split[0])
-		return ;
-	while (split[i])
+	while (split[0] && split[i])
 	{
 		if (split[i][0] == '<')
 		{
@@ -122,17 +120,14 @@ void	ft_sort_redirections(char **split)
 			split[i] = split[i - 1];
 			split[i - 1] = temp;
 		}
-		else if (split[i][0] == '>')
+		else if (split[i][0] == '>' && split[i - 1][0] != '>')
 		{
-			if (split[i - 1][0] != '>')
-			{
-				a = i;
-				while (split[i + 1] && split[i + 1][0] == '>')
-					i++;
-				temp = split[a];
-				split[a] = split[i];
-				split[i] = temp;
-			}
+			a = i;
+			while (split[i + 1] && split[i + 1][0] == '>')
+				i++;
+			temp = split[a];
+			split[a] = split[i];
+			split[i] = temp;
 		}	
 		i++;
 	}
