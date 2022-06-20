@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/20 23:18:02 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 00:58:31 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,5 +207,8 @@ int			run_export(t_exe_list *exe_list, t_envp_list *envp_list);
 void		free_paths(char **paths);
 void		free_exe_list(t_exe_list *exe_list);
 void		free_str(char *str);
+
+// utils/stdio_backups.c
+void		create_stdio_backups(int fd_in, int fd_out, t_envp_list *envp_list);
 
 #endif

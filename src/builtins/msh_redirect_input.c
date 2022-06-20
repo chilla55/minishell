@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_redirect_input.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/15 10:41:47 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 01:06:41 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,26 @@ static char	*insert_envp_2(char *input, char *ptr, t_envp_list *envp_list);
 void	msh_read_input_till_delimiter(char *delimiter, t_envp_list *envp_list)
 {
 	char	*input;
-	int		stdout_envp;
-	int		stdout_backup;
+	int		stdio_backup[2];
 
 	if (!delimiter)
 	{
 		write(2, "Error: no delimiter given\n", 26);
 		return ;
 	}
-	stdout_backup = dup(STDOUT_FILENO);
-	stdout_envp = ft_atoi(msh_get_envp_value(envp_list, "STDOUT_BACKUP"));
-	dup2(stdout_envp, STDOUT_FILENO);
+	stdio_backup[0] = dup(STDOUT_FILENO);
+	stdio_backup[1] = dup(STDIN_FILENO);
+	dup2(ft_atoi(msh_get_envp_value(envp_list, "STDOUT_BACKUP")),
+		STDOUT_FILENO);
+	dup2(ft_atoi(msh_get_envp_value(envp_list, "STDIN_BACKUP")), STDIN_FILENO);
 	input = read_input(delimiter);
-	dup2(stdout_backup, STDOUT_FILENO);
-	close(stdout_backup);
+	dup2(stdio_backup[0], STDOUT_FILENO);
+	close(stdio_backup[0]);
+	dup2(stdio_backup[1], STDIN_FILENO);
+	close(stdio_backup[1]);
 	if (input)
 	{
-		input = insert_envp(input, envp_list);
-		input = ft_strjoin_frees1(input, "\n");
+		input = ft_strjoin_frees1(insert_envp(input, envp_list), "\n");
 		write(STDOUT_FILENO, input, ft_strlen(input));
 		free(input);
 	}

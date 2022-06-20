@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exe_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/15 11:37:33 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 00:57:54 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,13 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 	int		exit;
 	int		fd_in;
 	int		fd_out;
-	char	*stdout_envp[3];
 
 	if (!exe_list)
 		return (-1);
 	signal_active();
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
-	stdout_envp[0] = ft_strdup("export");
-	stdout_envp[1] = ft_strjoin_frees2("STDOUT_BACKUP=", ft_itoa(fd_out));
-	stdout_envp[2] = NULL;
-	msh_export(stdout_envp, envp_list);
-	free(stdout_envp[0]);
-	free(stdout_envp[1]);
+	create_stdio_backups(fd_in, fd_out, envp_list);
 	exit = run_exe_list(exe_list, envp_list, fd_in, fd_out);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
@@ -87,18 +81,18 @@ int	run_exe_list(t_exe_list *exe_list, t_envp_list *envp_list,
 	if (child_pid == 0)
 	{
 		signal_child();
-		exit = run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list);
+		return (run_exe_extend(fd_in, fd_pipe[1], exe_list, envp_list));
 	}
-	else if (exe_list->next)
+	if (waitpid(child_pid, &status, 0) > -1)
+		if (status != 0 || !exe_list->next)
+			msh_set_envp_free_value(envp_list, "?", ft_itoa(status), 1);
+	if (exe_list->next)
 		exit = run_exe_list(exe_list->next, envp_list, fd_pipe[0], fd_out);
 	else
 	{
 		close(fd_pipe[0]);
 		exit = 0;
 	}
-	if (waitpid(child_pid, &status, 0) > -1)
-		if (status != 0 || !exe_list->next)
-			msh_set_envp_free_value(envp_list, "?", ft_itoa(status), 1);
 	return (exit);
 }
 
