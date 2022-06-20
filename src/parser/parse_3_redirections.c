@@ -6,15 +6,11 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/17 00:43:21 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/20 23:24:50 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static char	*insert_here(char *temp, int *i_0);
-static char	*ft_strinsertchar(char *str, char c, int pos);
-static int	ft_find_word_end(char *temp, int i);
 
 /*
 ** insert_pipes takes the input, searches for redirections and inserts pipes.
@@ -29,9 +25,13 @@ static int	ft_find_word_end(char *temp, int i);
 ** input string as needed.
 */
 
+static void	input_redirect_pipe(char **input, char **redirections, int i);
+static void	output_redirect_pipe(char **input, char **redirections, int i);
+static char	*redirect_pipe_join(char **command, char **in_red, char **out_red);
+
 char	*ft_insert_pipes(char *input)
 {
-	char	*temp;
+	char	*temp[3];
 	int		sq;
 	int		dq;
 	int		i;
@@ -39,162 +39,63 @@ char	*ft_insert_pipes(char *input)
 	sq = 0;
 	dq = 0;
 	i = 0;
-	temp = ft_strdup(input);
-	while (temp[i] == ' ')
-		i++;
-	if (temp[i] == '<' || temp[i] == '>')
-		temp = ft_strjoin_frees2("echo -n \"\" ", temp);
-	while (temp[i])
+	temp[0] = insert_space_after_redir(input);
+	temp[1] = NULL;
+	temp[2] = NULL;
+	while (temp[0][i])
 	{
-		if (temp[i] == '\'' && !dq)
+		if (temp[0][i] == '\'' && !dq)
 			sq = (sq + 1) % 2;
-		else if (temp[i] == '\"' && !sq)
+		else if (temp[0][i] == '\"' && !sq)
 			dq = (dq + 1) % 2;
-		else if ((temp[i] == '<' || temp[i] == '>') && !sq && !dq)
-			temp = insert_here(temp, &i);
-		if (temp[i])
+		else if (temp[0][i] == '<' && !sq && !dq)
+			input_redirect_pipe(&temp[0], &temp[1], i);
+		else if (temp[0][i] == '>' && !sq && !dq)
+			output_redirect_pipe(&temp[0], &temp[2], i);
+		else
 			i++;
 	}
-	return (temp);
+	return (redirect_pipe_join(&temp[0], &temp[1], &temp[2]));
 }
 
-/*
-** insert_here takes a string and the address of the index where
-** in this string a redirection is found.
-**
-** It first checks if there has already been inserted a pipe '|' in front,
-** and adds it if missing.
-**
-** If no space is between redirection and argument, it is inserted.
-**
-** The end of the argument word is located, and
-** where necessary, a pipe '|' is inserted.
-**
-** The index is updated to the end of the current redirection,
-** and the string is returned.
-*/
-
-char	*insert_here(char *temp, int *i_0)
+static void	input_redirect_pipe(char **input, char **redirections, int i)
 {
-	int	i;
-
-	i = *i_0;
-	if (i > 0)
-	{
-		if (temp[i - 1] == '|')
-			i--;
-		else
-			temp = ft_strinsertchar(temp, '|', i);
-	}
-	if (temp[i + 2] == temp[i + 1])
-		i++;
-	i = i + 2;
-	temp = ft_strinsertchar(temp, ' ', i);
-	*i_0 = i;
-	i = ft_find_word_end(temp, i);
-	while (temp[i] == ' ')
-		i++;
-	if (temp[i] && temp[i] != '|')
-		temp = ft_strinsertchar(temp, '|', i);
-	return (temp);
-}
-
-/*
-** sort_redirections takes the split input and switches every input redirection
-** with the command in front of it.
-**
-** So, the output of the built-in redirection command will be piped
-** into the input of the appropriate command.
-*/
-
-void	ft_sort_redirections(char **split)
-{
-	int		i;
-	int		a;
+	int		j;
 	char	*temp;
 
-	i = 1;
-	while (split[0] && split[i])
-	{
-		if (split[i][0] == '<')
-		{
-			temp = split[i];
-			a = i - 1;
-			while (a > 0 && split[a][0] == '>')
-				a--;
-			split[i] = split[a];
-			split[a] = temp;
-		}
-		else if (split[i][0] == '>' && split[i - 1][0] != '>')
-		{
-			a = i;
-			while (split[i + 1] && split[i + 1][0] == '>')
-				i++;
-			temp = split[a];
-			split[a] = split[i];
-			split[i] = temp;
-		}	
-		i++;
-	}
-	return ;
+	j = find_word_end(*input, i);
+	temp = ft_strjoin_frees2(*redirections, ft_substr(*input, i, j - i));
+	if (*redirections)
+		free(*redirections);
+	*redirections = ft_strjoin_frees1(temp, " | ");
+	temp = ft_strjoin_free(ft_substr(*input, 0, i),
+			ft_substr(*input, j, ft_strlen(*input) - j));
+	free(*input);
+	*input = temp;
 }
 
-/*
-** Inserts char 'c' at position pos into string str.
-**
-** Frees the original string str. Allocates memory for the return string.
-** So str = ft_strinsertchar(str, c, i) does not cause memory leaks.
-*/
-
-static char	*ft_strinsertchar(char *str, char c, int pos)
+static void	output_redirect_pipe(char **input, char **redirections, int i)
 {
-	char	*str1;
-	char	*str2;
-	char	*c_str;
-	char	*dest;
+	int		j;
+	char	*temp;
 
-	if (!str)
-		return (NULL);
-	if (pos > (int)ft_strlen(str))
-		pos = ft_strlen(str);
-	str1 = ft_substr(str, 0, pos);
-	str2 = ft_substr(str, pos, ft_strlen(str) - pos);
-	c_str = malloc(2 * sizeof(char));
-	c_str[0] = c;
-	c_str[1] = '\0';
-	dest = ft_strjoin_3(str1, c_str, str2);
-	free(c_str);
-	if (str1)
-		free(str1);
-	if (str2)
-		free(str2);
-	if (str)
-		free(str);
-	return (dest);
+	j = find_word_end(*input, i);
+	temp = ft_strjoin_frees1(ft_strdup(" | "), *redirections);
+	if (*redirections)
+		free(*redirections);
+	*redirections = ft_strjoin_free(temp, ft_substr(*input, i, j - i));
+	temp = ft_strjoin_free(ft_substr(*input, 0, i),
+			ft_substr(*input, j, ft_strlen(*input) - j));
+	free (*input);
+	*input = temp;
 }
 
-/*
-** Returns the index of the next word in string temp following index i.
-*/
-
-static int	ft_find_word_end(char *temp, int i)
+static char	*redirect_pipe_join(char **command, char **in_red, char **out_red)
 {
-	int	sq;
-	int	dq;
-
-	sq = 0;
-	dq = 0;
-	while (temp[i] == ' ')
-		i++;
-	while (temp[i] != ' ' || sq || dq)
-	{
-		if (temp[i] == '\0')
-			break ;
-		else if (temp[i] == '\'' && !dq)
-			sq = (sq + 1) % 2;
-		else if (temp[i] == '\"' && !sq)
-			dq = (dq + 1) % 2;
-		i++;
-	}
-	return (i);
+	*command = check_if_command(*command);
+	*command = ft_strjoin_frees2(*in_red, *command);
+	*command = ft_strjoin_frees1(*command, *out_red);
+	free(*in_red);
+	free(*out_red);
+	return (*command);
 }

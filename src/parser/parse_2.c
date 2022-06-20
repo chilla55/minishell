@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/16 15:01:27 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/20 17:16:07 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,25 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 {
 	t_exe_list	*exe_list;
 	char		**input_split;
+	char		**temp_split;
 	char		*temp;
-	int			i;
+	int			i[2];
 
 	exe_list = NULL;
-	i = 0;
 	if (!check_allowed(input))
 		return (0);
-	temp = ft_insert_pipes(input);
-	input_split = ft_split_parse(temp, '|');
-	ft_sort_redirections(input_split);
-	free(temp);
-	while (input_split[i])
+	input_split = ft_split_parse(input, '|');
+	i[0] = 0;
+	while (input_split[i[0]])
 	{
-		exe_list = append_entry(input_split[i], exe_list, envp_list);
-		i++;
+		temp = ft_insert_pipes(input_split[i[0]]);
+		temp_split = ft_split_parse(temp, '|');
+		free(temp);
+		i[1] = 0;
+		while (temp_split[i[1]])
+			exe_list = append_entry(temp_split[i[1]++], exe_list, envp_list);
+		free_split(temp_split);
+		i[0]++;
 	}
 	free_split(input_split);
 	return (init_exe(exe_list, envp_list));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/16 14:57:04 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/20 23:18:02 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,12 @@ char		**ft_split_parse(char const *s, char c);
 
 // parser/parse_3_redirections.c
 char		*ft_insert_pipes(char *input);
-void		ft_sort_redirections(char **split);
+
+// parser/parse_3_redirections_2.c
+char		*insert_space_after_redir(char *input);
+char		*check_if_command(char *input);
+char		*ft_strinsertchar(char *str, char c, int pos);
+int			find_word_end(char *temp, int i);
 
 // parser/parser_4.c
 int			check_allowed(char *input);
