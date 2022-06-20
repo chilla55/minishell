@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/20 23:47:23 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 01:29:21 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,15 @@ char	*ft_insert_pipes(char *input)
 	temp[2] = NULL;
 	while (temp[0][i])
 	{
-		if (temp[0][i] == '\'' && !dq)
-			sq = (sq + 1) % 2;
-		else if (temp[0][i] == '\"' && !sq)
-			dq = (dq + 1) % 2;
-		else if (temp[0][i] == '<' && !sq && !dq)
+		if (temp[0][i] == '<' && !sq && !dq)
 			input_redirect_pipe(&temp[0], &temp[1], i);
 		else if (temp[0][i] == '>' && !sq && !dq)
 			output_redirect_pipe(&temp[0], &temp[2], i);
 		else
+		{
+			test_quotes(temp[0][i], &sq, &dq);
 			i++;
+		}
 	}
 	return (redirect_pipe_join(&temp[0], &temp[1], &temp[2]));
 }

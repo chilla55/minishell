@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/21 00:58:31 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 01:32:23 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ char		*insert_space_after_redir(char *input);
 char		*check_if_command(char *input);
 char		*ft_strinsertchar(char *str, char c, int pos);
 int			find_word_end(char *temp, int i);
+void		test_quotes(char c, int	*sq, int *dq);
 
 // parser/parser_4.c
 int			check_allowed(char *input);

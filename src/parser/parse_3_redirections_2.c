@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 23:24:12 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/20 23:27:17 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 01:32:32 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,12 @@ char	*check_if_command(char *input)
 	}
 	free(input);
 	return (ft_strdup("echo -n \"\""));
+}
+
+void	test_quotes(char c, int	*sq, int *dq)
+{
+	if (c == '\'' && !*dq)
+		*sq = (*sq + 1) % 2;
+	else if (c == '\"' && !*sq)
+		*dq = (*dq + 1) % 2;
 }
