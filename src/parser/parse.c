@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:44:00 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 09:28:09 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 09:55:13 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ char	*squote_parse(char *input, int *i)
 char	*env_parse(char *input, int *i, t_envp_list *envp_list)
 {
 	int		a;
-	char	*tmp;
-	char	*ret;
+	char	*tmp[2];
 
 	a = 1;
 	if (input[a + i[0]] == '?' && input[a + i[0] - 1] == '$')
@@ -55,12 +54,12 @@ char	*env_parse(char *input, int *i, t_envp_list *envp_list)
 	}
 	if (!ft_isdigit(input[*i + 1]))
 	{
-		tmp = ft_substr(input, i[0] + 1, a);
-		ret = msh_get_envp_value(envp_list, tmp);
-		free (tmp);
+		tmp[0] = ft_substr(input, i[0] + 1, a);
+		tmp[1] = msh_get_envp_value(envp_list, tmp[0]);
+		free (tmp[0]);
 		i[0] = a + i[0];
 		i[3] = i[0] + 1;
-		return (ft_strdup(ret));
+		return (ft_strdup(tmp[1]));
 	}
 	i[0] = 1 + i[0];
 	i[3] = i[0] + 1;
