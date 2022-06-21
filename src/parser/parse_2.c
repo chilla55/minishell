@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 15:55:28 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 17:19:35 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ char	**createwords(char *input, t_envp_list *envp_list)
 	}
 	words = ft_calloc(i[2] + 1, sizeof(char *));
 	word_parse(input, words, i[0], envp_list);
+	reinsert_squote(words);
 	free(i);
 	return (words);
 }

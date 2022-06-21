@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:29:45 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 15:53:41 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 17:18:02 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,31 +73,21 @@ int	check_allowed(char *input)
 	return (a == 0);
 }
 
-char	*backslash_parse(char *input)
+void	reinsert_squote(char **words)
 {
-	int		sq;
-	int		dq;
-	int		i;
-	char	*output;
+	int	i;
+	int	j;
 
-	sq = 0;
 	i = 0;
-	output = ft_strdup(input);
-	while (output[i])
+	while (words[i])
 	{
-		test_quotes(output, i, &sq, &dq);
-		if (output[i] == '\\' && ! sq && output[i + 1] != '\'')
+		j = 0;
+		while (words[i][j])
 		{
-			output[i] = '\'';
-			sq = 1;
-			output = ft_strinsertchar(output, '\'', i + 2);
-		}
-		else if (output[i] == 92 && ! sq && output[i + 1] == '\'')
-		{
-			output = ft_strdelchar(output, i);
-			output[i] = 127;
+			if (words[i][j] == 127)
+				words[i][j] = '\'';
+			j++;
 		}
 		i++;
 	}
-	return (output);
 }

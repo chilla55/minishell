@@ -3,24 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:44:00 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 09:55:13 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:10:22 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*join_try_free(char *a, char *b)
+char	*backslash_parse(char *input)
 {
-	if (a && b)
-		return (ft_strjoin_free(a, b));
-	else if (a && !b)
-		return (a);
-	else if (!a && b)
-		return (b);
-	return (0x0);
+	int		quotes[2];
+	int		i;
+	char	*output;
+
+	quotes[0] = 0;
+	quotes[1] = 0;
+	i = 0;
+	output = ft_strdup(input);
+	while (output[i])
+	{
+		test_quotes(output, i, &quotes[0], &quotes[1]);
+		if (output[i] == '\\' && ! quotes[0] && output[i + 1] != '\'')
+		{
+			output[i] = '\'';
+			quotes[0] = 1;
+			output = ft_strinsertchar(output, '\'', i + 2);
+		}
+		else if (output[i] == 92 && ! quotes[0] && output[i + 1] == '\'')
+		{
+			output = ft_strdelchar(output, i);
+			output[i] = 127;
+		}
+		i++;
+	}
+	return (output);
 }
 
 char	*squote_parse(char *input, int *i)

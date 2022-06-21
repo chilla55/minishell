@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/21 15:45:43 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 17:14:44 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ typedef struct s_exe_list
 void		msh_free_envp_list(t_envp_list *envp_list);
 
 // parser/parse.c
-char		*join_try_free(char *a, char *b);
+char		*backslash_parse(char *input);
 char		*squote_parse(char *input, int *i);
 char		*env_parse(char *input, int *i, t_envp_list *envp_list);
 char		*dquote_parse(char *input, int *i, t_envp_list *envp_list);
@@ -121,14 +121,12 @@ char		*ft_insert_pipes(char *input);
 // parser/parse_3_redirections_2.c
 char		*insert_space_after_redir(char *input);
 char		*check_if_command(char *input);
-char		*ft_strinsertchar(char *str, char c, int pos);
-char		*ft_strdelchar(char *str, int pos);
 int			find_word_end(char *temp, int i);
 void		test_quotes(char *str, int i, int	*sq, int *dq);
 
 // parser/parser_4.c
 int			check_allowed(char *input);
-char		*backslash_parse(char *input);
+void		reinsert_squote(char **words);
 
 // env/envp_create.c
 t_envp_list	*msh_create_envp_list(char **envp);
@@ -217,5 +215,10 @@ void		create_stdio_backups(int fd_in, int fd_out, t_envp_list *envp_list);
 // utils/export_util.c
 char		**export_str_split(char *str, char c);
 int			str_contains_str(char *str, char *contains);
+
+// utils/string_utils.c
+char		*join_try_free(char *a, char *b);
+char		*ft_strinsertchar(char *str, char c, int pos);
+char		*ft_strdelchar(char *str, int pos);
 
 #endif

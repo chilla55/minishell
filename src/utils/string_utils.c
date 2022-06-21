@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:43:21 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/21 15:43:42 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 17:12:40 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,15 @@ char	*ft_strdelchar(char *str, int pos)
 	if (str)
 		free(str);
 	return (dest);
+}
+
+char	*join_try_free(char *a, char *b)
+{
+	if (a && b)
+		return (ft_strjoin_free(a, b));
+	else if (a && !b)
+		return (a);
+	else if (!a && b)
+		return (b);
+	return (0x0);
 }
