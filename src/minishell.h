@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/21 17:14:44 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 23:40:27 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,11 @@ typedef struct s_exe_list
 void		msh_free_envp_list(t_envp_list *envp_list);
 
 // parser/parse.c
-char		*backslash_parse(char *input);
 char		*squote_parse(char *input, int *i);
 char		*env_parse(char *input, int *i, t_envp_list *envp_list);
 char		*dquote_parse(char *input, int *i, t_envp_list *envp_list);
 
-// parser/parse2.c
+// parser/parse_2.c
 int			msh_parser(char *input, t_envp_list *envp_list);
 
 // parse/ft_split_parse.c
@@ -124,9 +123,12 @@ char		*check_if_command(char *input);
 int			find_word_end(char *temp, int i);
 void		test_quotes(char *str, int i, int	*sq, int *dq);
 
-// parser/parser_4.c
+// parser/parse_4.c
 int			check_allowed(char *input);
 void		reinsert_squote(char **words);
+
+// parser/parse_5.c
+char		**prepare_split_input(char *input);
 
 // env/envp_create.c
 t_envp_list	*msh_create_envp_list(char **envp);
