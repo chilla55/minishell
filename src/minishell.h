@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/21 09:10:25 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:45:43 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,13 @@ char		*ft_insert_pipes(char *input);
 char		*insert_space_after_redir(char *input);
 char		*check_if_command(char *input);
 char		*ft_strinsertchar(char *str, char c, int pos);
+char		*ft_strdelchar(char *str, int pos);
 int			find_word_end(char *temp, int i);
-void		test_quotes(char c, int	*sq, int *dq);
+void		test_quotes(char *str, int i, int	*sq, int *dq);
 
 // parser/parser_4.c
 int			check_allowed(char *input);
+char		*backslash_parse(char *input);
 
 // env/envp_create.c
 t_envp_list	*msh_create_envp_list(char **envp);
