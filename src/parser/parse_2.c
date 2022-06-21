@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 01:10:38 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:55:28 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,21 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 	int			i[2];
 
 	exe_list = NULL;
-	if (!check_allowed(input))
+	temp = backslash_parse(input);
+	if (!check_allowed(temp))
 		return (0);
-	input_split = ft_split_parse(input, '|');
+	input_split = ft_split_parse(temp, '|');
+	free(temp);
 	i[0] = 0;
 	while (input_split[i[0]])
 	{
-		temp = ft_insert_pipes(input_split[i[0]]);
+		temp = ft_insert_pipes(input_split[i[0]++]);
 		temp_split = ft_split_parse(temp, '|');
 		free(temp);
 		i[1] = 0;
 		while (temp_split[i[1]])
 			exe_list = append_entry(temp_split[i[1]++], exe_list, envp_list);
 		free_split(temp_split);
-		i[0]++;
 	}
 	free_split(input_split);
 	return (init_exe(exe_list, envp_list));

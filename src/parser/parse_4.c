@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:29:45 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/16 15:49:49 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:53:41 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,36 @@ int	check_allowed(char *input)
 		i++;
 	}
 	print_error(a, input);
+	if (a != 0)
+		free(input);
 	return (a == 0);
+}
+
+char	*backslash_parse(char *input)
+{
+	int		sq;
+	int		dq;
+	int		i;
+	char	*output;
+
+	sq = 0;
+	i = 0;
+	output = ft_strdup(input);
+	while (output[i])
+	{
+		test_quotes(output, i, &sq, &dq);
+		if (output[i] == '\\' && ! sq && output[i + 1] != '\'')
+		{
+			output[i] = '\'';
+			sq = 1;
+			output = ft_strinsertchar(output, '\'', i + 2);
+		}
+		else if (output[i] == 92 && ! sq && output[i + 1] == '\'')
+		{
+			output = ft_strdelchar(output, i);
+			output[i] = 127;
+		}
+		i++;
+	}
+	return (output);
 }

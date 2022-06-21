@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 01:29:21 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:41:15 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_insert_pipes(char *input)
 			output_redirect_pipe(&temp[0], &temp[2], i);
 		else
 		{
-			test_quotes(temp[0][i], &sq, &dq);
+			test_quotes(temp[0], i, &sq, &dq);
 			i++;
 		}
 	}

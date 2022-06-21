@@ -23,6 +23,12 @@ Description: Allocates (with malloc(3)) and returns an array
 of strings obtained by splitting ’s’ using the
 character ’c’ as a delimiter. The array must be
 ended by a NULL pointer.
+**
+** i[0] counting index
+** i[1] word count
+** i[2] word length
+** i[3] single quote toggle
+** i[4] double quote toggle
 */
 
 static int	ft_str_word_count(char const *s, char c)
