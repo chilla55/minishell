@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/21 01:32:23 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 09:10:25 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,5 +211,9 @@ void		free_str(char *str);
 
 // utils/stdio_backups.c
 void		create_stdio_backups(int fd_in, int fd_out, t_envp_list *envp_list);
+
+// utils/export_util.c
+char		**export_str_split(char *str, char c);
+int			str_contains_str(char *str, char *contains);
 
 #endif

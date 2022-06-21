@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   msh_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 12:14:10 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/16 18:57:00 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/21 09:10:39 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	msh_print_envp_list_abc(t_envp_list *envp_list, char *last);
+static int	msh_check_export_parameter(char *words);
 
 void	free_split(char **strarr)
 {
@@ -32,13 +33,20 @@ void	msh_export_worker(char	**words, t_envp_list *envp_list, int i)
 	int			a;
 	char		**split;
 
-	split = ft_split(words[i], '=');
-	a = msh_exist_envp(envp_list, split[0]);
-	if (!split[1] && a == 0)
-		msh_set_envp(envp_list, split[0], "", a);
-	else if (split[1])
-		msh_set_envp(envp_list, split[0], split[1], a);
-	free_split(split);
+	if (msh_check_export_parameter(words[i]))
+	{
+		split = export_str_split(words[i], '=');
+		if (split[0])
+		{
+			a = msh_exist_envp(envp_list, split[0]);
+			if (!split[1] && a == 0)
+				msh_set_envp(envp_list, split[0], "", a);
+			else if (split[1])
+				msh_set_envp(envp_list, split[0], split[1], a);
+		}
+		if (split)
+			free_split(split);
+	}
 	if (words[i + 1])
 		msh_export_worker(words, envp_list, i + 1);
 }
@@ -71,6 +79,17 @@ static void	msh_print_envp_list_abc(t_envp_list *envp_list, char *last)
 	}
 	if (!next)
 		return ;
-	printf("declare -x %s=%s\n", next, msh_get_envp_value(envp_list, next));
+	printf("declare -x %s=\"%s\"\n", next, msh_get_envp_value(envp_list, next));
 	msh_print_envp_list_abc(envp_list, next);
+}
+
+static int	msh_check_export_parameter(char *words)
+{
+	if (words[0] && !ft_isdigit(words[0]) && str_contains_str(words,
+			"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQESRUVWXYZ1234567890_"))
+		return (1);
+	write(2, &"Error: ", 7);
+	write(2, words, ft_strlen(words));
+	write(2, &" not a valid identifier\n", 24);
+	return (0);
 }

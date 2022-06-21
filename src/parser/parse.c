@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:44:00 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/15 19:16:35 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 09:28:09 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,23 @@ char	*env_parse(char *input, int *i, t_envp_list *envp_list)
 		a++;
 	else
 	{
-		while (ft_isalnum(input[a + i[0]]) && input[a + i[0]])
+		while ((ft_isalnum(input[a + i[0]]) || input[a + i[0]] == '_')
+			&& input[a + i[0]])
 			a++;
 		a--;
 	}
-	tmp = ft_substr(input, i[0] + 1, a);
-	ret = msh_get_envp_value(envp_list, tmp);
-	free (tmp);
-	i[0] = a + i[0];
+	if (!ft_isdigit(input[*i + 1]))
+	{
+		tmp = ft_substr(input, i[0] + 1, a);
+		ret = msh_get_envp_value(envp_list, tmp);
+		free (tmp);
+		i[0] = a + i[0];
+		i[3] = i[0] + 1;
+		return (ft_strdup(ret));
+	}
+	i[0] = 1 + i[0];
 	i[3] = i[0] + 1;
-	return (ft_strdup(ret));
+	return (NULL);
 }
 
 char	*dqute_env_parse(char *input, int *i, t_envp_list *envp_list)
@@ -71,15 +78,21 @@ char	*dqute_env_parse(char *input, int *i, t_envp_list *envp_list)
 		a++;
 	else
 	{
-		while (ft_isalnum(input[a + *i]) && input[a + *i])
+		while ((ft_isalnum(input[a + i[0]]) || input[a + i[0]] == '_')
+			&& input[a + i[0]])
 			a++;
 		a--;
 	}
-	tmp = ft_substr(input, *i + 1, a);
-	ret = msh_get_envp_value(envp_list, tmp);
-	free (tmp);
-	*i = a + *i;
-	return (ft_strdup(ret));
+	if (!ft_isdigit(input[*i + 1]))
+	{
+		tmp = ft_substr(input, *i + 1, a);
+		ret = msh_get_envp_value(envp_list, tmp);
+		free (tmp);
+		*i = a + *i;
+		return (ft_strdup(ret));
+	}
+	*i = *i + 1;
+	return (NULL);
 }
 
 char	*dquote_parse(char *input, int *i, t_envp_list *envp_list)
