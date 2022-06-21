@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   msh_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrotzsc <agrotzsc@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/04/26 09:09:06 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/21 13:22:45 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	is_newline_arg(char	*str);
 
 /*
 ** Your shell must implement the following builtins:
@@ -36,9 +38,11 @@ void	msh_echo(char **strs)
 		return ;
 	}
 	no_new_line = 0;
-	if (ft_strncmp(strs[1], "-n", 3) == 0)
+	i = 1;
+	while (is_newline_arg(strs[i]))
+		i++;
+	if (i > 1)
 		no_new_line = 1;
-	i = no_new_line + 1;
 	while (strs[i])
 	{
 		write(1, strs[i], ft_strlen(strs[i]));
@@ -48,4 +52,20 @@ void	msh_echo(char **strs)
 	}
 	if (no_new_line == 0)
 		write(1, "\n", 1);
+}
+
+static int	is_newline_arg(char	*str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	if (str[0] != '-')
+		return (0);
+	i = 1;
+	while (str[i] == 'n')
+		i++;
+	if (str[i] != '\0')
+		return (0);
+	return (1);
 }
