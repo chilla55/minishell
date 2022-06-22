@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:29:45 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 17:18:02 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 12:38:09 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,4 @@ int	check_allowed(char *input)
 	if (a != 0)
 		free(input);
 	return (a == 0);
-}
-
-void	reinsert_squote(char **words)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (words[i])
-	{
-		j = 0;
-		while (words[i][j])
-		{
-			if (words[i][j] == 127)
-				words[i][j] = '\'';
-			j++;
-		}
-		i++;
-	}
 }

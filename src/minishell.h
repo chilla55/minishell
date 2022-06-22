@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/21 23:40:27 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 12:41:57 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ void		test_quotes(char *str, int i, int	*sq, int *dq);
 
 // parser/parse_4.c
 int			check_allowed(char *input);
-void		reinsert_squote(char **words);
 
 // parser/parse_5.c
 char		**prepare_split_input(char *input);
