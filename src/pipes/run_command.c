@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/15 18:27:10 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:40:04 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	run_export(t_exe_list *exe_list, t_envp_list *envp_list)
 	if (!exe_list || !exe_list->command)
 	{
 		write(2, &": Command not found\n", 20);
-		msh_set_envp(envp_list, "?", "65280", 1);
+		msh_set_envp(envp_list, "?", "127", 1);
 		return (1);
 	}	
 	if (!ft_strncmp(exe_list->command, "export", 7) && !exe_list->next)
