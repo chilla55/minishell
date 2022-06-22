@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:29:45 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/22 12:38:09 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 13:58:05 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,38 @@ void	print_error(int a, char *input)
 		write(2, &"Error: Unexpected Symbol: \'newline\'\n", 36);
 }
 
+/*
+** i[0] = index
+** i[1] = contains
+** i[2] = squotes
+** i[3] = dquotes
+*/
+
 int	check_allowed(char *input)
 {
-	int	i;
-	int	a;
+	int	i[4];
 
-	i = 0;
-	a = 0;
-	while (input[i])
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	i[3] = 0;
+	while (input[i[0]])
 	{
-		if (input[i] == '<' || input[i] == '>' || input[i] == '|')
+		test_quotes(input, i[0], &i[2], &i[3]);
+		if ((input[i[0]] == '<' || input[i[0]] == '>' || input[i[0]] == '|')
+			&& !i[2] && !i[3])
 		{
-			if ((input[i] == '<' && input[i + 1] == '<')
-				|| (input[i] == '>' && input[i + 1] == '>'))
-				i++;
-			a = contains(input, i + 1, "<|>");
-			if (a != 0)
+			if ((input[i[0]] == '<' && input[i[0] + 1] == '<')
+				|| (input[i[0]] == '>' && input[i[0] + 1] == '>'))
+				i[0]++;
+			i[1] = contains(input, i[0] + 1, "<|>");
+			if (i[1] != 0)
 				break ;
 		}
-		i++;
+		i[0]++;
 	}
-	print_error(a, input);
-	if (a != 0)
+	print_error(i[1], input);
+	if (i[1] != 0)
 		free(input);
-	return (a == 0);
+	return (i[1] == 0);
 }
