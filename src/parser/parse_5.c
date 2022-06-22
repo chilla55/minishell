@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:29:20 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/22 00:53:23 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 08:56:21 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,17 @@ static char	*dollar_parse(char *input)
 				output = ft_strinsertchar(output, '\'', i);
 				quotes[0] = 1;
 				output = ft_strinsertchar(output, '\'', i + 2);
+			}
+		}
+		else if (output[i] == '$' && !quotes[0] && quotes[1] && ft_strchr("\" |\0", output[i + 1]))
+		{
+			if (i == 0 || (i > 0 && output[i - 1] != '$'))
+			{
+				output = ft_strinsertchar(output, '\"', i);
+				output = ft_strinsertchar(output, '\'', i + 1);
+				quotes[0] = 1;
+				output = ft_strinsertchar(output, '\'', i + 3);
+				output = ft_strinsertchar(output, '\"', i + 4);
 			}
 		}
 		i++;
