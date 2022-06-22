@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:26:18 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/22 12:44:21 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/22 13:19:04 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	init_exe(t_exe_list *exe_list, t_envp_list *envp_list)
 
 	if (!exe_list)
 		return (-1);
+	msh_set_envp(envp_list, "?", "0", 1);
 	signal_active();
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);

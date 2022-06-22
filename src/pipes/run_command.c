@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:39:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/22 12:40:04 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/22 13:17:38 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	try_build_in(char *word, char **words, t_envp_list *envp_list)
 	else if (!ft_strncmp(word, "export", 7))
 		msh_export(words, envp_list);
 	else if (!ft_strncmp(word, "cd", 3))
-		msh_cd(words);
+		msh_cd(words, envp_list);
 	else if (!ft_strncmp(word, "unset", 6))
 		msh_unset(words, envp_list);
 	else if (!ft_strncmp(word, "pwd", 4))
@@ -107,7 +107,7 @@ int	run_export(t_exe_list *exe_list, t_envp_list *envp_list)
 	else if (!ft_strncmp(exe_list->command, "unset", 6) && !exe_list->next)
 		msh_unset(exe_list->argv, envp_list);
 	else if (!ft_strncmp(exe_list->command, "cd", 6) && !exe_list->next)
-		msh_cd(exe_list->argv);
+		msh_cd(exe_list->argv, envp_list);
 	else
 		return (0);
 	return (1);

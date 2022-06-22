@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 11:03:55 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/22 12:41:57 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 13:16:44 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void		msh_pwd_cmd(void);
 void		msh_echo(char **argv);
 
 // builtins/msh_cd.c
-void		msh_cd(char **argv);
+void		msh_cd(char **argv, t_envp_list *envp_list);
 
 // builtins/msh_export.c
 void		msh_export(char	**words, t_envp_list *envp_list);

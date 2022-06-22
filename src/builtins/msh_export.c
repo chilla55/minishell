@@ -6,7 +6,7 @@
 /*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 12:14:10 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 09:10:39 by agrotzsc         ###   ########.fr       */
+/*   Updated: 2022/06/22 13:18:32 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	msh_export_worker(char	**words, t_envp_list *envp_list, int i)
 		if (split)
 			free_split(split);
 	}
+	else
+		msh_set_envp(envp_list, "?", "1", 1);
 	if (words[i + 1])
 		msh_export_worker(words, envp_list, i + 1);
 }
