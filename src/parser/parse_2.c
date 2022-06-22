@@ -6,7 +6,7 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/22 12:37:56 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 14:21:38 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	msh_parser(char *input, t_envp_list *envp_list)
 	exe_list = NULL;
 	input_split = prepare_split_input(input);
 	if (!input_split)
-		return (0);
+		return (msh_set_envp(envp_list, "?", "2", 1));
 	i[0] = 0;
 	while (input_split[i[0]])
 	{
