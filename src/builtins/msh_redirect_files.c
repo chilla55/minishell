@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_redirect_files.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:00:29 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/17 00:39:29 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 14:01:05 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	msh_read_from_file(char *path)
 	if (fd_file == -1)
 	{
 		perror("open");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	while (read(fd_file, &ch, 1) > 0)
 	{	
