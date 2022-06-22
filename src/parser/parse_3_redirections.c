@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_3_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: agrotzsc <agrotzsc@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 08:45:29 by agrotzsc          #+#    #+#             */
-/*   Updated: 2022/06/21 15:41:15 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 20:58:39 by agrotzsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ static void	output_redirect_pipe(char **input, char **redirections, int i)
 	char	*temp;
 
 	j = find_word_end(*input, i);
-	temp = ft_strjoin_frees1(ft_strdup(" | "), *redirections);
+	temp = ft_strjoin_frees1(ft_substr(*input, i, j - i), *redirections);
 	if (*redirections)
 		free(*redirections);
-	*redirections = ft_strjoin_free(temp, ft_substr(*input, i, j - i));
+	*redirections = ft_strjoin_free(ft_strdup(" | "), temp);
 	temp = ft_strjoin_free(ft_substr(*input, 0, i),
 			ft_substr(*input, j, ft_strlen(*input) - j));
 	free (*input);
