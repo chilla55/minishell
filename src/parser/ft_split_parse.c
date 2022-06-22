@@ -15,7 +15,7 @@
 /*
 ** ft_split_parse Parameters:
 ** #1. The string to be split.
-** #2. The delimiter character.
+** #2. The delimiter character.u
 Return value: The array of new strings resulting from the split.
 NULL if the allocation fails.
 External functs. malloc, free

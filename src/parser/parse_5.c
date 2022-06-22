@@ -6,14 +6,14 @@
 /*   By: skorte <skorte@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:29:20 by skorte            #+#    #+#             */
-/*   Updated: 2022/06/22 12:41:16 by skorte           ###   ########.fr       */
+/*   Updated: 2022/06/22 12:58:07 by skorte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//static char	*backslash_parse(char *input);
 static char	*dollar_parse(char *input);
+static char	*handle_dollar_cases(char *output, int i, int *sq, int *dq);
 
 char	**prepare_split_input(char *input)
 {
@@ -42,28 +42,36 @@ static char	*dollar_parse(char *input)
 	while (output[i])
 	{
 		test_quotes(output, i, &quotes[0], &quotes[1]);
-		if (output[i] == '$' && !quotes[0] && !quotes[1] && ft_strchr(" |\0", output[i + 1]))
-		{
-			if (i == 0 || (i > 0 && output[i - 1] != '$'))
-			{
-				output = ft_strinsertchar(output, '\'', i);
-				quotes[0] = 1;
-				output = ft_strinsertchar(output, '\'', i + 2);
-			}
-		}
-		else if (output[i] == '$' && !quotes[0] && quotes[1] && ft_strchr("\" |\0", output[i + 1]))
-		{
-			if (i == 0 || (i > 0 && output[i - 1] != '$'))
-			{
-				output = ft_strinsertchar(output, '\"', i);
-				output = ft_strinsertchar(output, '\'', i + 1);
-				quotes[0] = 1;
-				output = ft_strinsertchar(output, '\'', i + 3);
-				output = ft_strinsertchar(output, '\"', i + 4);
-			}
-		}
+		output = handle_dollar_cases(output, i, &quotes[0], &quotes[1]);
 		i++;
 	}
 	free(input);
+	return (output);
+}
+
+static char	*handle_dollar_cases(char *output, int i, int *sq, int *dq)
+{
+	if (output[i] == '$' && !*sq && !*dq
+		&& ft_strchr(" |\0", output[i + 1]))
+	{
+		if (i == 0 || (i > 0 && output[i - 1] != '$'))
+		{
+			output = ft_strinsertchar(output, '\'', i);
+			*sq = 1;
+			output = ft_strinsertchar(output, '\'', i + 2);
+		}
+	}
+	else if (output[i] == '$' && !*sq && *dq
+		&& ft_strchr("\" |\0", output[i + 1]))
+	{
+		if (i == 0 || (i > 0 && output[i - 1] != '$'))
+		{
+			output = ft_strinsertchar(output, '\"', i);
+			output = ft_strinsertchar(output, '\'', i + 1);
+			*sq = 1;
+			output = ft_strinsertchar(output, '\'', i + 3);
+			output = ft_strinsertchar(output, '\"', i + 4);
+		}
+	}
 	return (output);
 }
